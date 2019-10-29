@@ -1,4 +1,6 @@
 ﻿using Grafika.Constans;
+using Grafika.Extentions;
+using Grafika.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +15,7 @@ namespace Grafika
 {
     public partial class Form1 : Form
     {
+        public Picture picture = new Picture();
         public Form1()
         {
             InitializeComponent();
@@ -23,8 +26,22 @@ namespace Grafika
             Graphics g = e.Graphics;
             using (SolidBrush whiteBrush = new SolidBrush(Color.White), blackBrush = new SolidBrush(Color.Black), orangeBrush = new SolidBrush(Color.Orange))
             {
-                g.FillRectangle(whiteBrush, 0, 0, CONST.bitmapX, CONST.bitmapY);
+                using (Pen blackPen = new Pen(Color.Black))
+                {
+                    g.FillRectangle(whiteBrush, 0, 0, CONST.bitmapX, CONST.bitmapY);
+                    foreach (var triangle in picture.Triangles)
+                    {
+                        g.PaintTriangle(blackPen, triangle);
+                    }
+                }
             }
+            pictureBox1.Invalidate();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            pictureBox1.Invalidate();
+            picture.GenerateSampleTriangle(3);
         }
     }
 }

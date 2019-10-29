@@ -10,25 +10,43 @@ namespace Grafika.Models
     public class Picture
     {
         public List<Triangle> Triangles { get; set; }
+        private Vertice[,] listVertices;
+        public Picture()
+        {
+            Triangles = new List<Triangle>();
+        }
         public void GenerateSampleTriangle(int n)
         {
             int width = CONST.bitmapX / n;
             int height = CONST.bitmapY / n;
-            for(int j=0;j<n;j++)
+            listVertices = new Vertice[n + 1, n + 1];
+            for (int j = 0; j < n + 1; j++)
             {
-                for(int i=0;i<n;i++)
+                for (int i = 0; i < n + 1; i++)
                 {
-                    int x = i/2;
-                    Vertice A = new Vertice(x * width, j * height);
-                    Vertice B = new Vertice((x + 1) * width, j * height);
+                    listVertices[i, j] = new Vertice(i * width, j * height);
+                }
+            }
+
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < 2 * n; i++)
+                {
+                    int x = i / 2;
+                    Vertice A;
+                    Vertice B;
                     Vertice C;
-                    if (i%2 == 0)
+                    if (i % 2 == 0)
                     {
-                        C = new Vertice(x*width, (j + 1) * height);
+                        A = listVertices[x,j];
+                        B = listVertices[x + 1, j];
+                        C = listVertices[x, j + 1];
                     }
                     else
                     {
-                        C = new Vertice((x+1) * width, (j + 1) * height);
+                        A = listVertices[x + 1, j + 1];
+                        B = listVertices[x + 1, j];
+                        C = listVertices[x, j + 1];
                     }
 
                     Triangles.Add(new Triangle(A, B, C));

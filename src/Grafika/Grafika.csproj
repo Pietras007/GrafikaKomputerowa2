@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constans\CONST.cs" />
+    <Compile Include="Extentions\GraphicsExtentions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
