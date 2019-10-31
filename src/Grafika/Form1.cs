@@ -26,6 +26,11 @@ namespace Grafika
         public RodzajMalowania rodzajMalowania;
         List<object> checkedRodzajMalowania = new List<object>();
         Timer MyTimer = new Timer();
+        bool isMoving;
+        Vertice clickedPoint;
+        double ks;
+        double kd;
+        int m;
         public Form1()
         {
             InitializeComponent();
@@ -34,14 +39,24 @@ namespace Grafika
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            using (SolidBrush whiteBrush = new SolidBrush(Color.White), blackBrush = new SolidBrush(Color.Black), orangeBrush = new SolidBrush(Color.Orange))
+            if (rodzajMalowania == RodzajMalowania.Brak)
             {
+                if (wypelnienie == Wypelnienie.Tekstura)
+                {
+                    pictureBox1.Load("picture.jpg");
+                }
+                else
+                {
+                    using (SolidBrush whiteBrush = new SolidBrush(textBox3.BackColor), blackBrush = new SolidBrush(Color.Black), orangeBrush = new SolidBrush(Color.Orange))
+                    {
+                        g.FillRectangle(whiteBrush, 0, 0, CONST.bitmapX, CONST.bitmapY);
+                    }
+                }
                 using (Pen blackPen = new Pen(Color.Black))
                 {
-                    g.FillRectangle(whiteBrush, 0, 0, CONST.bitmapX, CONST.bitmapY);
                     foreach (var triangle in picture.Triangles)
                     {
-                        g.PaintTriangle(blackPen, triangle);
+                        g.PaintTriangleLines(blackPen, triangle);
                     }
                 }
             }
@@ -49,8 +64,10 @@ namespace Grafika
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            isMoving = false;
             textBox1.Text = CONST.trianglesX.ToString();
             textBox2.Text = CONST.trianglesY.ToString();
+            textBox3.BackColor = Color.White;
             sizeX = CONST.trianglesX;
             sizeY = CONST.trianglesY;
             trybPracy = TrybPracy.SwiatloDaleko;
@@ -69,7 +86,7 @@ namespace Grafika
         private void button9_Click(object sender, EventArgs e)
         {
             int x, y;
-            if(int.TryParse(textBox1.Text, out x) && int.TryParse(textBox2.Text, out y))
+            if (int.TryParse(textBox1.Text, out x) && int.TryParse(textBox2.Text, out y))
             {
                 sizeX = x;
                 sizeY = y;
@@ -113,7 +130,7 @@ namespace Grafika
             foreach (var sender in checkedTrybPracy)
             {
                 Button butt = (Button)sender;
-                butt.BackColor = SystemColors.Control;
+                butt.BackColor = SystemColors.ControlLight;
             }
         }
 
@@ -122,6 +139,7 @@ namespace Grafika
             UnCheckAllWypelnienie();
             CheckWypelnienie(sender);
             wypelnienie = Wypelnienie.Tekstura;
+            textBox3.BackColor = Color.White;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -129,6 +147,8 @@ namespace Grafika
             UnCheckAllWypelnienie();
             CheckWypelnienie(sender);
             wypelnienie = Wypelnienie.WybierzKolor;
+            colorDialog1.ShowDialog();
+            textBox3.BackColor = colorDialog1.Color;
         }
 
         private void CheckWypelnienie(object sender)
@@ -146,7 +166,7 @@ namespace Grafika
             foreach (var sender in checkedWypelnienie)
             {
                 Button butt = (Button)sender;
-                butt.BackColor = SystemColors.Control;
+                butt.BackColor = SystemColors.ControlLight;
             }
         }
 
@@ -193,8 +213,65 @@ namespace Grafika
             foreach (var sender in checkedRodzajMalowania)
             {
                 Button butt = (Button)sender;
-                butt.BackColor = SystemColors.Control;
+                butt.BackColor = SystemColors.ControlLight;
             }
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (trybPracy == TrybPracy.Przesuwanie)
+            {
+                if (isMoving)
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        clickedPoint.MoveVerticeTo(new Vertice(e.X, e.Y));
+                    }
+                }
+
+                Vertice p = picture.GetVertice(new Vertice(e.X, e.Y));
+                if (p != null)
+                {
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Hand;
+                }
+                else
+                {
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                }
+            }
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (trybPracy == TrybPracy.Przesuwanie)
+            {
+                Vertice p = picture.GetVertice(new Vertice(e.X, e.Y));
+                if (p != null)
+                {
+                    clickedPoint = p;
+                    isMoving = true;
+                }
+            }
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMoving = false;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            ks = trackBar1.Value / 100.0;
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            kd = trackBar2.Value / 100.0;
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            m = trackBar3.Value;
         }
     }
 }

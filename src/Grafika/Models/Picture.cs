@@ -53,5 +53,18 @@ namespace Grafika.Models
                 }
             }
         }
+
+        public Vertice GetVertice(Vertice vertice)
+        {
+            foreach(var triangle in Triangles)
+            {
+                Vertice v = triangle.GetVertice(vertice);
+                if(v != null)
+                {
+                    return v;
+                }
+            }
+            return null;
+        }
     }
 }

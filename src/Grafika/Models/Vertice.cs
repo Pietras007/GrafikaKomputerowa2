@@ -15,5 +15,11 @@ namespace Grafika.Models
             X = x;
             Y = y;
         }
+
+        public void MoveVerticeTo(Vertice vertice)
+        {
+            X = vertice.X;
+            Y = vertice.Y;
+        }
     }
 }

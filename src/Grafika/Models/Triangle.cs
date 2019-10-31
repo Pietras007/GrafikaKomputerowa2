@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grafika.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -18,6 +19,24 @@ namespace Grafika.Models
             this.B = B;
             this.C = C;
         }
-
+        public Vertice GetVertice(Vertice vertice)
+        {
+            if(A.IsVertice(vertice))
+            {
+                return A;
+            }
+            else if(B.IsVertice(vertice))
+            {
+                return B;
+            }
+            else if (C.IsVertice(vertice))
+            {
+                return C;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
