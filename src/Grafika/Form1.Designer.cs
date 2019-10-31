@@ -28,36 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolStrip1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             this.SuspendLayout();
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1508, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(114, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // menuStrip1
             // 
@@ -65,7 +70,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1508, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1748, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -92,44 +97,288 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(29, 76);
+            this.pictureBox1.Location = new System.Drawing.Point(29, 59);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1447, 650);
+            this.pictureBox1.Size = new System.Drawing.Size(1447, 667);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.button8);
+            this.panel1.Controls.Add(this.button7);
+            this.panel1.Controls.Add(this.button6);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.trackBar3);
+            this.panel1.Controls.Add(this.trackBar2);
+            this.panel1.Controls.Add(this.trackBar1);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Location = new System.Drawing.Point(1512, 59);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 667);
+            this.panel1.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(52, 183);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Tekstura";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(52, 212);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(100, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Wybierz kolor";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(52, 285);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Dokładne";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Location = new System.Drawing.Point(28, 160);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(147, 20);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Wypełnienie:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(28, 255);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(144, 27);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Rodzaj malowania:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(52, 314);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(100, 23);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "Interpolowane";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(51, 343);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(100, 23);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "Hybrydowe";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(27, 393);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(141, 29);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Współczynniki:";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(52, 422);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 12;
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.Location = new System.Drawing.Point(51, 473);
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(104, 45);
+            this.trackBar2.TabIndex = 13;
+            // 
+            // trackBar3
+            // 
+            this.trackBar3.Location = new System.Drawing.Point(51, 528);
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Size = new System.Drawing.Size(104, 45);
+            this.trackBar3.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(31, 422);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(22, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "kd:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(28, 473);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(21, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "ks:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(31, 528);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(18, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "m:";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(27, 576);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(145, 49);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Wielkość planszy m x n:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(90, 625);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(18, 13);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "  x";
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(31, 27);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(137, 21);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "Tryb pracy:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label9.Click += new System.EventHandler(this.label9_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(52, 51);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(99, 23);
+            this.button6.TabIndex = 20;
+            this.button6.Text = "Przesuwanie";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(51, 80);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(99, 23);
+            this.button7.TabIndex = 21;
+            this.button7.Text = "Światło daleko";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(51, 109);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(99, 36);
+            this.button8.TabIndex = 22;
+            this.button8.Text = "Wędrujące światło";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(34, 622);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(50, 20);
+            this.textBox1.TabIndex = 4;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(121, 622);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(47, 20);
+            this.textBox2.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1508, 761);
+            this.ClientSize = new System.Drawing.Size(1748, 761);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Grafika 2";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

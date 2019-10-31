@@ -43,5 +43,10 @@ namespace Grafika
             pictureBox1.Invalidate();
             picture.GenerateSampleTriangle(3);
         }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
