@@ -15,12 +15,12 @@ namespace Grafika.Models
         {
             Triangles = new List<Triangle>();
         }
-        public void GenerateSampleTriangle(int n)
+        public void GenerateSampleTriangle(int n, int m)
         {
             int width = CONST.bitmapX / n;
-            int height = CONST.bitmapY / n;
-            listVertices = new Vertice[n + 1, n + 1];
-            for (int j = 0; j < n + 1; j++)
+            int height = CONST.bitmapY / m;
+            listVertices = new Vertice[n + 1, m + 1];
+            for (int j = 0; j < m + 1; j++)
             {
                 for (int i = 0; i < n + 1; i++)
                 {
@@ -28,7 +28,7 @@ namespace Grafika.Models
                 }
             }
 
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < m; j++)
             {
                 for (int i = 0; i < 2 * n; i++)
                 {

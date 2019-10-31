@@ -6,8 +6,24 @@ using System.Threading.Tasks;
 
 namespace Grafika.Constans
 {
-    public enum Mode
+    public enum TrybPracy
     {
-        MoveVertice
+        Przesuwanie,
+        SwiatloDaleko,
+        SwiatloWedrujace
+    }
+
+    public enum Wypelnienie
+    {
+        Tekstura,
+        WybierzKolor
+    }
+
+    public enum RodzajMalowania
+    {
+        Brak,
+        Dokladne,
+        Interpolowane,
+        Hybrydowe
     }
 }
