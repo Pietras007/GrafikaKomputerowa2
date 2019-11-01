@@ -11,23 +11,17 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor)
+        public static void Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, WektorN wektorN, Triangle triangle, double LX, double LY, double LZ)
         {
 
-            double Lx = -1;
-            double Ly = -1;
-            double Lz = -1;
-            if (trybPracy == TrybPracy.SwiatloDaleko)
+            double Lx = 0;
+            double Ly = 0;
+            double Lz = 1;
+            if (trybPracy == TrybPracy.SwiatloWedrujace)
             {
-                Lx = 0;
-                Ly = 0;
-                Lz = 1;
-            }
-            else
-            {
-                Lx = 0;
-                Ly = 0;
-                Lz = 1;
+                Lx = LX;
+                Ly = LY;
+                Lz = LZ;
             }
 
             for (int i = 0; i < AET.Count; i += 2)
@@ -36,18 +30,21 @@ namespace Grafika.Helpers
                 {
                     if (x < 720 && y < 576)
                     {
-                        Color color;
+                        Color color = backColor;
                         if (wypelnienie == Wypelnienie.Tekstura)
                         {
                             color = sampleImage.GetPixel(x, y);
                         }
-                        else
-                        {
-                            color = backColor;
-                        }
+
                         double Nx = 0;
                         double Ny = 0;
                         double Nz = 1;
+                        if(wektorN == WektorN.Tekstura)
+                        {
+                            Nx = 0;
+                            Ny = 0;
+                            Nz = 1;
+                        }
 
                         double Vx = 0;
                         double Vy = 0;
@@ -62,7 +59,18 @@ namespace Grafika.Helpers
                         double Ir = kd * ((double)lightColor.R / 255) * ((double)color.R / 255) * cosNL + ks * ((double)lightColor.R / 255) * ((double)color.R / 255) * Math.Pow(cosVR, m);
                         double Ig = kd * ((double)lightColor.G / 255) * ((double)color.G / 255) * cosNL + ks * ((double)lightColor.G / 255) * ((double)color.G / 255) * Math.Pow(cosVR, m);
                         double Ib = kd * ((double)lightColor.B / 255) * ((double)color.B / 255) * cosNL + ks * ((double)lightColor.B / 255) * ((double)color.B / 255) * Math.Pow(cosVR, m);
-
+                        if (Ir > 1)
+                        {
+                            Ir = 1;
+                        }
+                        if (Ig > 1)
+                        {
+                            Ig = 1;
+                        }
+                        if (Ib > 1)
+                        {
+                            Ib = 1;
+                        }
                         using (SolidBrush solidBrush = new SolidBrush(Color.FromArgb((int)(Ir*255), (int)(Ig*255), (int)(Ib*255))))
                         {
                             g.FillRectangle(solidBrush, x, y, 1, 1);

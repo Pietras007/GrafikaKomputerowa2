@@ -23,11 +23,9 @@ namespace Grafika
         public int sizeX;
         public int sizeY;
         public TrybPracy trybPracy;
-        List<object> checkedTrybPracy = new List<object>();
         public Wypelnienie wypelnienie;
-        List<object> checkedWypelnienie = new List<object>();
         public RodzajMalowania rodzajMalowania;
-        List<object> checkedRodzajMalowania = new List<object>();
+        public WektorN wektorN;
         Timer MyTimer = new Timer();
         bool isMoving;
         Vertice clickedPoint;
@@ -48,9 +46,8 @@ namespace Grafika
             }
             else
             {
-                g.Paint(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor);
+                g.Paint(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, wektorN);
             }
-            //pictureBox1.Invalidate();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -64,14 +61,14 @@ namespace Grafika
             lightColor = Color.White;
             sizeX = CONST.CONST.trianglesX;
             sizeY = CONST.CONST.trianglesY;
-            trybPracy = TrybPracy.SwiatloDaleko;
-            wypelnienie = Wypelnienie.Tekstura;
-            rodzajMalowania = RodzajMalowania.Brak;
+            radioButton7.Checked = true;
+            radioButton9.Checked = true;
+            radioButton3.Checked = true;
+            radioButton1.Checked = true;
             picture.InitializePicture(sizeX, sizeY);
             MyTimer.Interval = (15);
             MyTimer.Tick += new EventHandler(TimerFunction);
             MyTimer.Start();
-            //pictureBox1.Invalidate();
         }
         private void TimerFunction(object sender, EventArgs e)
         {
@@ -89,134 +86,16 @@ namespace Grafika
             }
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            UnCheckAllTrybPracy();
-            CheckTrybPracy(sender);
-            trybPracy = TrybPracy.Przesuwanie;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            UnCheckAllTrybPracy();
-            CheckTrybPracy(sender);
-            trybPracy = TrybPracy.SwiatloDaleko;
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            UnCheckAllTrybPracy();
-            CheckTrybPracy(sender);
-            trybPracy = TrybPracy.SwiatloWedrujace;
-        }
-
-        private void CheckTrybPracy(object sender)
-        {
-            if (!checkedTrybPracy.Contains(sender))
-            {
-                checkedTrybPracy.Add(sender);
-            }
-            Button butt = (Button)sender;
-            butt.BackColor = Color.Cyan;
-        }
-
-        private void UnCheckAllTrybPracy()
-        {
-            foreach (var sender in checkedTrybPracy)
-            {
-                Button butt = (Button)sender;
-                butt.BackColor = SystemColors.ControlLight;
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            UnCheckAllWypelnienie();
-            CheckWypelnienie(sender);
-            wypelnienie = Wypelnienie.Tekstura;
-            textBox3.BackColor = Color.White;
-            backColor = Color.White;
-        }
-
         private void button2_Click(object sender, EventArgs e)
-        {
-            UnCheckAllWypelnienie();
-            CheckWypelnienie(sender);
-            wypelnienie = Wypelnienie.WybierzKolor;
+        { 
             colorDialog1.ShowDialog();
             textBox3.BackColor = colorDialog1.Color;
             backColor = textBox3.BackColor;
         }
 
-        private void CheckWypelnienie(object sender)
-        {
-            if (!checkedWypelnienie.Contains(sender))
-            {
-                checkedWypelnienie.Add(sender);
-            }
-            Button butt = (Button)sender;
-            butt.BackColor = Color.Cyan;
-        }
-
-        private void UnCheckAllWypelnienie()
-        {
-            foreach (var sender in checkedWypelnienie)
-            {
-                Button butt = (Button)sender;
-                butt.BackColor = SystemColors.ControlLight;
-            }
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            UnCheckAllRodzajMalowania();
-            CheckRodzajMalowania(sender);
-            rodzajMalowania = RodzajMalowania.Brak;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            UnCheckAllRodzajMalowania();
-            CheckRodzajMalowania(sender);
-            rodzajMalowania = RodzajMalowania.Dokladne;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            UnCheckAllRodzajMalowania();
-            CheckRodzajMalowania(sender);
-            rodzajMalowania = RodzajMalowania.Hybrydowe;
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            UnCheckAllRodzajMalowania();
-            CheckRodzajMalowania(sender);
-            rodzajMalowania = RodzajMalowania.Interpolowane;
-        }
-
-        private void CheckRodzajMalowania(object sender)
-        {
-            if (!checkedRodzajMalowania.Contains(sender))
-            {
-                checkedRodzajMalowania.Add(sender);
-            }
-            Button butt = (Button)sender;
-            butt.BackColor = Color.Cyan;
-        }
-
-        private void UnCheckAllRodzajMalowania()
-        {
-            foreach (var sender in checkedRodzajMalowania)
-            {
-                Button butt = (Button)sender;
-                butt.BackColor = SystemColors.ControlLight;
-            }
-        }
-
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (trybPracy == TrybPracy.Przesuwanie)
+            if (checkBox1.Checked)
             {
                 if (isMoving)
                 {
@@ -240,7 +119,7 @@ namespace Grafika
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (trybPracy == TrybPracy.Przesuwanie)
+            if (checkBox1.Checked)
             {
                 Vertice p = picture.GetVertice(new Vertice(e.X, e.Y));
                 if (p != null)
@@ -276,6 +155,56 @@ namespace Grafika
             colorDialog2.ShowDialog();
             textBox4.BackColor = colorDialog2.Color;
             lightColor = textBox4.BackColor;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            rodzajMalowania = RodzajMalowania.Brak;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            rodzajMalowania = RodzajMalowania.Dokladne;
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            rodzajMalowania = RodzajMalowania.Interpolowane;
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            rodzajMalowania = RodzajMalowania.Hybrydowe;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            wektorN = WektorN.Staly;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            wektorN = WektorN.Tekstura;
+        }
+
+        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        {
+            trybPracy = TrybPracy.SwiatloDaleko;
+        }
+
+        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        {
+            trybPracy = TrybPracy.SwiatloWedrujace;
+        }
+
+        private void radioButton9_CheckedChanged(object sender, EventArgs e)
+        {
+            wypelnienie = Wypelnienie.Tekstura;
+        }
+
+        private void radioButton10_CheckedChanged(object sender, EventArgs e)
+        {
+            wypelnienie = Wypelnienie.JednolityKolor;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Grafika.CONST
 {
     public enum TrybPracy
     {
-        Przesuwanie,
         SwiatloDaleko,
         SwiatloWedrujace
     }
@@ -16,7 +15,7 @@ namespace Grafika.CONST
     public enum Wypelnienie
     {
         Tekstura,
-        WybierzKolor
+        JednolityKolor
     }
 
     public enum RodzajMalowania
@@ -25,5 +24,11 @@ namespace Grafika.CONST
         Dokladne,
         Interpolowane,
         Hybrydowe
+    }
+
+    public enum WektorN
+    {
+        Staly,
+        Tekstura
     }
 }

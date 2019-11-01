@@ -12,8 +12,6 @@ namespace Grafika.Extentions
 {
     public static class GraphicsExtentions
     {
-        public static object ScanLinePaint { get; private set; }
-
         public static void PaintTriangleLines(this Graphics g, Pen pen, Triangle triangle)
         {
             g.DrawLine(pen, triangle.A.X, triangle.A.Y, triangle.B.X, triangle.B.Y);
@@ -43,7 +41,7 @@ namespace Grafika.Extentions
             }
         }
 
-        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor)
+        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, WektorN wektorN, double LX, double LY, double LZ)
         {
 
             foreach (var triangle in picture.Triangles)
@@ -57,7 +55,7 @@ namespace Grafika.Extentions
                 List<AETPointer> AET = new List<AETPointer>();
                 for (int y = 0; y <= ET.Length - 1; y++)
                 {
-                    g.Fill(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor);
+                    g.Fill(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, wektorN, triangle, LX, LY, LZ);
 
                     for (int i = AET.Count - 1; i >= 0; i--)
                     {
