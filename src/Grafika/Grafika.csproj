@@ -63,6 +63,7 @@
     <Compile Include="Models\Edge.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Triangle.cs" />
+    <Compile Include="Models\Vector.cs" />
     <Compile Include="Models\Vertice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

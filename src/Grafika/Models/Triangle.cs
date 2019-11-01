@@ -57,10 +57,10 @@ namespace Grafika.Models
                 }
             }
 
-            for (int i = 0; i < aETPointers.Length; i++)
-            {
-                aETPointers[i] = aETPointers[i].OrderBy(o => o.X).ThenBy(x => x.m).ToList();
-            }
+            //for (int i = 0; i < aETPointers.Length; i++)
+            //{
+            //    aETPointers[i] = aETPointers[i].OrderBy(o => o.X).ThenBy(x => x.m).ToList();
+            //}
 
             return aETPointers;
         }

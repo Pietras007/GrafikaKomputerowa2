@@ -41,7 +41,7 @@ namespace Grafika.Extentions
             }
         }
 
-        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, WektorN wektorN, double LX, double LY, double LZ)
+        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector vectorL)
         {
 
             foreach (var triangle in picture.Triangles)
@@ -55,7 +55,7 @@ namespace Grafika.Extentions
                 List<AETPointer> AET = new List<AETPointer>();
                 for (int y = 0; y <= ET.Length - 1; y++)
                 {
-                    g.Fill(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, wektorN, triangle, LX, LY, LZ);
+                    g.Fill(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, triangle, vectorL);
 
                     for (int i = AET.Count - 1; i >= 0; i--)
                     {

@@ -26,7 +26,7 @@ namespace Grafika.CONST
         Hybrydowe
     }
 
-    public enum WektorN
+    public enum OpcjaWektoraN
     {
         Staly,
         Tekstura

@@ -25,13 +25,15 @@ namespace Grafika
         public TrybPracy trybPracy;
         public Wypelnienie wypelnienie;
         public RodzajMalowania rodzajMalowania;
-        public WektorN wektorN;
+        public OpcjaWektoraN opcjaWektoraN;
         Timer MyTimer = new Timer();
         bool isMoving;
         Vertice clickedPoint;
         double ks;
         double kd;
         int m;
+        Vector vectorL = new Vector(0, 0, 1);
+        Random random;
         public Form1()
         {
             InitializeComponent();
@@ -46,13 +48,14 @@ namespace Grafika
             }
             else
             {
-                g.Paint(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, wektorN);
+                g.Paint(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             isMoving = false;
+            random = new Random();
             sampleImage = new Bitmap("picture.jpg");
             textBox1.Text = CONST.CONST.trianglesX.ToString();
             textBox2.Text = CONST.CONST.trianglesY.ToString();
@@ -65,6 +68,7 @@ namespace Grafika
             radioButton9.Checked = true;
             radioButton3.Checked = true;
             radioButton1.Checked = true;
+            checkBox2.Checked = true;
             picture.InitializePicture(sizeX, sizeY);
             MyTimer.Interval = (15);
             MyTimer.Tick += new EventHandler(TimerFunction);
@@ -179,12 +183,12 @@ namespace Grafika
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            wektorN = WektorN.Staly;
+            opcjaWektoraN = OpcjaWektoraN.Staly;
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            wektorN = WektorN.Tekstura;
+            opcjaWektoraN = OpcjaWektoraN.Tekstura;
         }
 
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
@@ -205,6 +209,28 @@ namespace Grafika
         private void radioButton10_CheckedChanged(object sender, EventArgs e)
         {
             wypelnienie = Wypelnienie.JednolityKolor;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox2.Checked)
+            {
+                kd = random.NextDouble();
+                ks = random.NextDouble();
+                m = random.Next(1, 100);
+                trackBar1.Value = (int)(kd * 100);
+                trackBar2.Value = (int)(ks * 100);
+                trackBar3.Value = m;
+                trackBar1.Enabled = false;
+                trackBar2.Enabled = false;
+                trackBar3.Enabled = false;
+            }
+            else
+            {
+                trackBar1.Enabled = true;
+                trackBar2.Enabled = true;
+                trackBar3.Enabled = true;
+            }
         }
     }
 }

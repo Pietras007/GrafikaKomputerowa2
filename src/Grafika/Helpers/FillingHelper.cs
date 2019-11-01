@@ -11,7 +11,7 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, WektorN wektorN, Triangle triangle, double LX, double LY, double LZ)
+        public static void Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
         {
 
             double Lx = 0;
@@ -19,9 +19,9 @@ namespace Grafika.Helpers
             double Lz = 1;
             if (trybPracy == TrybPracy.SwiatloWedrujace)
             {
-                Lx = LX;
-                Ly = LY;
-                Lz = LZ;
+                Lx = vectorL.X;
+                Ly = vectorL.Y;
+                Lz = vectorL.Z;
             }
 
             for (int i = 0; i < AET.Count; i += 2)
@@ -39,11 +39,11 @@ namespace Grafika.Helpers
                         double Nx = 0;
                         double Ny = 0;
                         double Nz = 1;
-                        if(wektorN == WektorN.Tekstura)
+                        if(opcjaWektoraN == OpcjaWektoraN.Tekstura)
                         {
-                            Nx = 0;
-                            Ny = 0;
-                            Nz = 1;
+                            Nx = color.R / 255;
+                            Ny = color.G / 255;
+                            Nz = color.B / 255;
                         }
 
                         double Vx = 0;

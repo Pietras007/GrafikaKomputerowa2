@@ -72,6 +72,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.colorDialog2 = new System.Windows.Forms.ColorDialog();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -117,7 +118,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(43, 103);
+            this.pictureBox1.Location = new System.Drawing.Point(41, 64);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(722, 578);
             this.pictureBox1.TabIndex = 2;
@@ -129,10 +130,12 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkBox2);
             this.panel1.Controls.Add(this.panel5);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.label10);
@@ -151,11 +154,10 @@
             this.panel1.Controls.Add(this.trackBar3);
             this.panel1.Controls.Add(this.trackBar2);
             this.panel1.Controls.Add(this.trackBar1);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.button2);
-            this.panel1.Location = new System.Drawing.Point(791, 27);
+            this.panel1.Location = new System.Drawing.Point(795, 27);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 698);
             this.panel1.TabIndex = 3;
@@ -240,15 +242,15 @@
             // 
             this.panel3.Controls.Add(this.radioButton1);
             this.panel3.Controls.Add(this.radioButton2);
-            this.panel3.Location = new System.Drawing.Point(6, 387);
+            this.panel3.Location = new System.Drawing.Point(3, 375);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(194, 50);
+            this.panel3.Size = new System.Drawing.Size(194, 45);
             this.panel3.TabIndex = 32;
             // 
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(53, 3);
+            this.radioButton1.Location = new System.Drawing.Point(54, 3);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(89, 17);
             this.radioButton1.TabIndex = 29;
@@ -260,7 +262,7 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(53, 23);
+            this.radioButton2.Location = new System.Drawing.Point(54, 25);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(72, 17);
             this.radioButton2.TabIndex = 30;
@@ -484,7 +486,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(27, 428);
+            this.label3.Location = new System.Drawing.Point(31, 423);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 29);
             this.label3.TabIndex = 11;
@@ -521,6 +523,17 @@
             this.button2.Text = "Wybierz kolor";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(61, 446);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(63, 17);
+            this.checkBox2.TabIndex = 31;
+            this.checkBox2.Text = "Losowe";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // Form1
             // 
@@ -600,6 +613,7 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.RadioButton radioButton10;
         private System.Windows.Forms.RadioButton radioButton9;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 
