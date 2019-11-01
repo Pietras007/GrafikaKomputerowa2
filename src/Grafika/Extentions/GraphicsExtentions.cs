@@ -43,18 +43,21 @@ namespace Grafika.Extentions
             }
         }
 
-        public static void PaintDokladne(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m)
+        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor)
         {
 
             foreach (var triangle in picture.Triangles)
             {
-                Color backColor = Color.Green;
+                Random random = new Random();
+                int red = random.Next(0, 255);
+                int green = random.Next(0, 255);
+                int blue = random.Next(0, 255);
+                Color backColor = Color.FromArgb(red, green, blue);
                 List<AETPointer>[] ET = triangle.GetETTable();
                 List<AETPointer> AET = new List<AETPointer>();
-                AET.AddRange(ET[0]);//jak cos to to wywalic
-                for (int y = 0; y < ET.Length - 1; y++)
+                for (int y = 0; y <= ET.Length - 1; y++)
                 {
-                    g.ScanLinePaint(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
+                    g.Fill(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor);
 
                     for (int i = AET.Count - 1; i >= 0; i--)
                     {
@@ -63,10 +66,10 @@ namespace Grafika.Extentions
                             AET.RemoveAt(i);
                         }
                     }
-
-                    if (ET[y + 1].Count > 0)//a tu wywalic plusa
+                    
+                    if (ET[y].Count > 0)
                     {
-                        AET.AddRange(ET[y + 1]);
+                        AET.AddRange(ET[y]);
                         AET = AET.OrderBy(o => o.X).ThenBy(x => x.m).ToList();
                     }
 
@@ -83,16 +86,6 @@ namespace Grafika.Extentions
                     g.PaintTriangleLines(blackPen, triangle);
                 }
             }
-        }
-
-        public static void PaintHybrydowe(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m)
-        {
-
-        }
-
-        public static void PaintInterpolowane(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m)
-        {
-
         }
     }
 }

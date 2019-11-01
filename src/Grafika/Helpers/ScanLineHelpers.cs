@@ -11,22 +11,15 @@ namespace Grafika.Helpers
 {
     public static class ScanLineHelpers
     {
-        public static void ScanLinePaint(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m)
+        public static void ScanLinePaint(this Graphics g, List<AETPointer> AET, int y, Color color)
         {
-            if(AET.Count %2 != 0)
+            for (int i = 0; i < AET.Count; i += 2)
             {
-                int dupa = 2;
-            }
-            else
-            {
-                for(int i=0;i<AET.Count;i+=2)
+                for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    for(int x = (int)AET[i].X; x <= (int)AET[i+1].X; x++)
+                    using (SolidBrush solidBrush = new SolidBrush(color))
                     {
-                        using (SolidBrush solidBrush = new SolidBrush(backColor))
-                        {
-                            g.FillRectangle(solidBrush, x, y, 1, 1);
-                        }
+                        g.FillRectangle(solidBrush, x, y, 1, 1);
                     }
                 }
             }

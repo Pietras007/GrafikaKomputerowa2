@@ -34,6 +34,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -59,7 +60,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.colorDialog2 = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -113,6 +116,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button11);
             this.panel1.Controls.Add(this.textBox3);
             this.panel1.Controls.Add(this.button10);
             this.panel1.Controls.Add(this.button9);
@@ -142,6 +146,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 667);
             this.panel1.TabIndex = 3;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Enabled = false;
+            this.textBox3.Location = new System.Drawing.Point(158, 214);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(20, 20);
+            this.textBox3.TabIndex = 4;
             // 
             // button10
             // 
@@ -237,7 +250,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(31, 528);
+            this.label6.Location = new System.Drawing.Point(31, 496);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(18, 13);
             this.label6.TabIndex = 17;
@@ -246,7 +259,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(28, 473);
+            this.label5.Location = new System.Drawing.Point(31, 457);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(21, 13);
             this.label5.TabIndex = 16;
@@ -264,7 +277,7 @@
             // trackBar3
             // 
             this.trackBar3.LargeChange = 10;
-            this.trackBar3.Location = new System.Drawing.Point(51, 528);
+            this.trackBar3.Location = new System.Drawing.Point(51, 496);
             this.trackBar3.Maximum = 100;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Size = new System.Drawing.Size(104, 45);
@@ -274,7 +287,7 @@
             // trackBar2
             // 
             this.trackBar2.LargeChange = 10;
-            this.trackBar2.Location = new System.Drawing.Point(51, 473);
+            this.trackBar2.Location = new System.Drawing.Point(52, 457);
             this.trackBar2.Maximum = 100;
             this.trackBar2.Name = "trackBar2";
             this.trackBar2.Size = new System.Drawing.Size(104, 45);
@@ -371,19 +384,30 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // textBox3
+            // button11
             // 
-            this.textBox3.Location = new System.Drawing.Point(158, 214);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(20, 20);
-            this.textBox3.TabIndex = 4;
+            this.button11.Location = new System.Drawing.Point(50, 547);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(100, 23);
+            this.button11.TabIndex = 25;
+            this.button11.Text = "Kolor Światła";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // textBox4
+            // 
+            this.textBox4.Enabled = false;
+            this.textBox4.Location = new System.Drawing.Point(947, 605);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(22, 20);
+            this.textBox4.TabIndex = 26;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1020, 737);
+            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
@@ -437,6 +461,9 @@
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.ColorDialog colorDialog2;
     }
 }
 

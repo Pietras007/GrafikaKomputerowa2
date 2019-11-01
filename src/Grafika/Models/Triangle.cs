@@ -13,30 +13,32 @@ namespace Grafika.Models
         public Vertice A { get; set; }
         public Vertice B { get; set; }
         public Vertice C { get; set; }
+        public List<Edge> edges { get; set; }
+        public List<Vertice> vertices { get; set; }
         public Triangle(Vertice A, Vertice B, Vertice C)
         {
+            edges = new List<Edge>();
+            vertices = new List<Vertice>();
             this.A = A;
             this.B = B;
             this.C = C;
+            edges.Add(new Edge(A, B));
+            edges.Add(new Edge(B, C));
+            edges.Add(new Edge(C, A));
+            vertices.Add(A);
+            vertices.Add(B);
+            vertices.Add(C);
         }
         public Vertice GetVertice(Vertice vertice)
         {
-            if(A.IsVertice(vertice))
+            foreach(var v in vertices)
             {
-                return A;
+                if(v.IsVertice(vertice))
+                {
+                    return v;
+                }
             }
-            else if(B.IsVertice(vertice))
-            {
-                return B;
-            }
-            else if (C.IsVertice(vertice))
-            {
-                return C;
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public List<AETPointer>[] GetETTable()
@@ -46,43 +48,32 @@ namespace Grafika.Models
             {
                 aETPointers[i] = new List<AETPointer>();
             }
+            foreach(var e in edges)
+            {
+                AETPointer aETPointer = new AETPointer(e.start, e.end);
+                if(1/aETPointer.m != 0)
+                {
+                    aETPointers[GetYmin(e.start, e.end)].Add(aETPointer);
+                }
+            }
 
-            AETPointer AB = new AETPointer(A, B);
-            AETPointer BC = new AETPointer(B, C);
-            AETPointer CA = new AETPointer(C, A);
-            if (1/AB.m != 0)
-            {
-                aETPointers[GetYmin(A, B)].Add(AB);
-            }
-            if (1/BC.m != 0)
-            {
-                aETPointers[GetYmin(B, C)].Add(BC);
-            }
-            if (1/CA.m != 0)
-            {
-                aETPointers[GetYmin(C, A)].Add(CA);
-            }
-            for (int i=0;i<aETPointers.Length;i++)
+            for (int i = 0; i < aETPointers.Length; i++)
             {
                 aETPointers[i] = aETPointers[i].OrderBy(o => o.X).ThenBy(x => x.m).ToList();
             }
+
             return aETPointers;
         }
 
         public int GetYmax()
         {
             int yMax = 0;
-            if(A.Y > yMax)
+            foreach(var v in vertices)
             {
-                yMax = A.Y;
-            }
-            if(B.Y > yMax)
-            {
-                yMax = B.Y;
-            }
-            if(C.Y > yMax)
-            {
-                yMax = C.Y;
+                if(v.Y > yMax)
+                {
+                    yMax = v.Y;
+                }
             }
             return yMax;
         }
