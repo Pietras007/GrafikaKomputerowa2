@@ -1,4 +1,5 @@
 ﻿using Grafika.CONST;
+using Grafika.Helpers;
 using Grafika.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Grafika.Extentions
 {
     public static class GraphicsExtentions
     {
+        public static object ScanLinePaint { get; private set; }
+
         public static void PaintTriangleLines(this Graphics g, Pen pen, Triangle triangle)
         {
             g.DrawLine(pen, triangle.A.X, triangle.A.Y, triangle.B.X, triangle.B.Y);
@@ -40,9 +43,46 @@ namespace Grafika.Extentions
             }
         }
 
-        public static void PaintDokladne(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m)
+        public static void PaintDokladne(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m)
         {
 
+            foreach (var triangle in picture.Triangles)
+            {
+                Color backColor = Color.Green;
+                List<AETPointer>[] ET = triangle.GetETTable();
+                List<AETPointer> AET = new List<AETPointer>();
+                AET.AddRange(ET[0]);//jak cos to to wywalic
+                for (int y = 0; y < ET.Length - 1; y++)
+                {
+                    g.ScanLinePaint(AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
+
+                    for (int i = AET.Count - 1; i >= 0; i--)
+                    {
+                        if (AET[i].Ymax == y)
+                        {
+                            AET.RemoveAt(i);
+                        }
+                    }
+
+                    if (ET[y + 1].Count > 0)//a tu wywalic plusa
+                    {
+                        AET.AddRange(ET[y + 1]);
+                        AET = AET.OrderBy(o => o.X).ThenBy(x => x.m).ToList();
+                    }
+
+                    for (int i = 0; i < AET.Count; i++)
+                    {
+                        AET[i].X += AET[i].m;
+                    }
+                }
+            }
+            using (Pen blackPen = new Pen(Color.Black))
+            {
+                foreach (var triangle in picture.Triangles)
+                {
+                    g.PaintTriangleLines(blackPen, triangle);
+                }
+            }
         }
 
         public static void PaintHybrydowe(this Graphics g, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m)

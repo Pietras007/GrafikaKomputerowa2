@@ -57,6 +57,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FigureHelper.cs" />
+    <Compile Include="Helpers\ScanLineHelpers.cs" />
+    <Compile Include="Models\AETPointer.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Triangle.cs" />
     <Compile Include="Models\Vertice.cs" />
