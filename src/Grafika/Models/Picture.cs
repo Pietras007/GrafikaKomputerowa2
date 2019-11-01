@@ -1,4 +1,4 @@
-﻿using Grafika.Constans;
+﻿using Grafika.CONST;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +17,8 @@ namespace Grafika.Models
         }
         public void GenerateSampleTriangle(int n, int m)
         {
-            int width = CONST.bitmapX / n;
-            int height = CONST.bitmapY / m;
+            int width = CONST.CONST.bitmapX / n;
+            int height = CONST.CONST.bitmapY / m;
             listVertices = new Vertice[n + 1, m + 1];
             for (int j = 0; j < m + 1; j++)
             {

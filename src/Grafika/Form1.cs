@@ -1,4 +1,4 @@
-﻿using Grafika.Constans;
+﻿using Grafika.CONST;
 using Grafika.Extentions;
 using Grafika.Helpers;
 using Grafika.Models;
@@ -17,6 +17,8 @@ namespace Grafika
     public partial class Form1 : Form
     {
         public Picture picture = new Picture();
+        Bitmap sampleImage;
+        Color backColor;
         public int sizeX;
         public int sizeY;
         public TrybPracy trybPracy;
@@ -41,35 +43,31 @@ namespace Grafika
             Graphics g = e.Graphics;
             if (rodzajMalowania == RodzajMalowania.Brak)
             {
-                if (wypelnienie == Wypelnienie.Tekstura)
-                {
-                    pictureBox1.Load("picture.jpg");
-                }
-                else
-                {
-                    using (SolidBrush whiteBrush = new SolidBrush(textBox3.BackColor), blackBrush = new SolidBrush(Color.Black), orangeBrush = new SolidBrush(Color.Orange))
-                    {
-                        g.FillRectangle(whiteBrush, 0, 0, CONST.bitmapX, CONST.bitmapY);
-                    }
-                }
-                using (Pen blackPen = new Pen(Color.Black))
-                {
-                    foreach (var triangle in picture.Triangles)
-                    {
-                        g.PaintTriangleLines(blackPen, triangle);
-                    }
-                }
+                g.PaintBrak(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
+            }
+            else if(rodzajMalowania == RodzajMalowania.Dokladne)
+            {
+                g.PaintDokladne(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
+            }
+            else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
+            {
+                g.PaintHybrydowe(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
+            }
+            else if(rodzajMalowania == RodzajMalowania.Interpolowane)
+            {
+                g.PaintInterpolowane(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             isMoving = false;
-            textBox1.Text = CONST.trianglesX.ToString();
-            textBox2.Text = CONST.trianglesY.ToString();
+            sampleImage = new Bitmap("picture.jpg");
+            textBox1.Text = CONST.CONST.trianglesX.ToString();
+            textBox2.Text = CONST.CONST.trianglesY.ToString();
             textBox3.BackColor = Color.White;
-            sizeX = CONST.trianglesX;
-            sizeY = CONST.trianglesY;
+            sizeX = CONST.CONST.trianglesX;
+            sizeY = CONST.CONST.trianglesY;
             trybPracy = TrybPracy.SwiatloDaleko;
             wypelnienie = Wypelnienie.Tekstura;
             rodzajMalowania = RodzajMalowania.Brak;
@@ -140,6 +138,7 @@ namespace Grafika
             CheckWypelnienie(sender);
             wypelnienie = Wypelnienie.Tekstura;
             textBox3.BackColor = Color.White;
+            backColor = Color.White;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -149,6 +148,7 @@ namespace Grafika
             wypelnienie = Wypelnienie.WybierzKolor;
             colorDialog1.ShowDialog();
             textBox3.BackColor = colorDialog1.Color;
+            backColor = textBox3.BackColor;
         }
 
         private void CheckWypelnienie(object sender)
