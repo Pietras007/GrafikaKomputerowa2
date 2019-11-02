@@ -92,6 +92,10 @@ namespace Grafika.Extentions
             {
                 g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL, randomKdKsM);
             });
+            //foreach (var triangle in picture.Triangles)
+            //{
+            //    g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL, randomKdKsM);
+            //}
         }
 
         public static void PaintTriangle(this Graphics g, Color[,] colorToPaint, Triangle triangle, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector vectorL, bool randomKdKsM)
@@ -139,6 +143,10 @@ namespace Grafika.Extentions
                 else if(rodzajMalowania == RodzajMalowania.Interpolowane)
                 {
                     g.FillInterpolowane(colorToPaint, AET, y, triangleColorsABC, triangle);
+                }
+                else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
+                {
+                    g.FillHybrydowe(colorToPaint, AET, y, triangleColorsABC, triangle);
                 }
 
                 for (int i = AET.Count - 1; i >= 0; i--)

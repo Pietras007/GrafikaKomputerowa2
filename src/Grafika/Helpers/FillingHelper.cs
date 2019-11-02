@@ -61,6 +61,29 @@ namespace Grafika.Helpers
             }
         }
 
+        public static void FillHybrydowe(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, Color, Color) triangleColorsABC, Triangle triangle)
+        {
+            for (int i = 0; i < AET.Count; i += 2)
+            {
+                for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
+                {
+                    if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
+                    {
+                        var A = triangle.A;
+                        var B = triangle.B;
+                        var C = triangle.C;
+                        double alpha = (x - C.X - (C.Y - y) / (C.Y - B.Y) * B.X - (y - C.Y) / (C.Y - B.Y) * C.X) / (A.X + (A.Y - C.Y) / (C.Y - B.Y) * B.X - C.X - (A.Y - C.Y) / (C.Y - B.Y) * C.X);
+                        double beta = alpha * (A.Y - C.Y) / (C.Y - B.Y) + (C.Y - y) / (C.Y - B.Y);
+                        double gamma = 1 - alpha - beta;
+                        int R_ = (int)Round255(alpha * triangleColorsABC.Item1.R + beta * triangleColorsABC.Item2.R + gamma * triangleColorsABC.Item3.R);
+                        int G_ = (int)Round255(alpha * triangleColorsABC.Item1.G + beta * triangleColorsABC.Item2.G + gamma * triangleColorsABC.Item3.G);
+                        int B_ = (int)Round255(alpha * triangleColorsABC.Item1.B + beta * triangleColorsABC.Item2.B + gamma * triangleColorsABC.Item3.B);
+                        colorToPaint[x, y] = Color.FromArgb(R_, G_, B_);
+                    }
+                }
+            }
+        }
+
 
         public static double Round01(double x)
         {
