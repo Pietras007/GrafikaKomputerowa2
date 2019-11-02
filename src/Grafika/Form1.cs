@@ -17,10 +17,12 @@ namespace Grafika
     public partial class Form1 : Form
     {
         public Picture picture = new Picture();
+        bool randomKdKsM = false;
         Bitmap sampleImage;
         Color backColor;
         Color lightColor;
         Color[,] sampleImageColor;
+        Color[,] normalMapColor;
         public int sizeX;
         public int sizeY;
         public TrybPracy trybPracy;
@@ -33,7 +35,7 @@ namespace Grafika
         double ks;
         double kd;
         int m;
-        Vector vectorL = new Vector(0, 0, 1);
+        Vector vectorL;
         Random random;
         public Form1()
         {
@@ -49,9 +51,8 @@ namespace Grafika
             }
             else
             {
-                g.Paint(picture, wypelnienie, sampleImageColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
+                g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL, randomKdKsM);
             }
-            pictureBox1.Invalidate();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -59,12 +60,15 @@ namespace Grafika
             isMoving = false;
             random = new Random();
             sampleImage = new Bitmap("picture.jpg");
+            Bitmap normalMap = new Bitmap("normal.png");
             sampleImageColor = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
+            normalMapColor = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
             for (int i=0;i<CONST.CONST.bitmapX;i++)
             {
                 for(int j=0;j<CONST.CONST.bitmapY;j++)
                 {
                     sampleImageColor[i, j] = sampleImage.GetPixel(i, j);
+                    normalMapColor[i, j] = normalMap.GetPixel(i, j);
                 }
             }
             textBox1.Text = CONST.CONST.trianglesX.ToString();
@@ -72,21 +76,30 @@ namespace Grafika
             textBox3.BackColor = Color.White;
             textBox4.BackColor = Color.White;
             lightColor = Color.White;
+            backColor = Color.White;
             sizeX = CONST.CONST.trianglesX;
             sizeY = CONST.CONST.trianglesY;
             radioButton7.Checked = true;
             radioButton9.Checked = true;
             radioButton3.Checked = true;
             radioButton1.Checked = true;
-            checkBox2.Checked = true;
+            //checkbox2
+            kd = 0.75;
+            ks = 0.25;
+            m = 30;
+            trackBar1.Value = (int)(kd * 100);
+            trackBar2.Value = (int)(ks * 100);
+            trackBar3.Value = m;
+            //
+            vectorL = new Vector(0, 0, 1);
             picture.InitializePicture(sizeX, sizeY);
-            //MyTimer.Interval = (15);
-            //MyTimer.Tick += new EventHandler(TimerFunction);
-            //MyTimer.Start();
-            pictureBox1.Invalidate();
+            MyTimer.Interval = (20);
+            MyTimer.Tick += new EventHandler(TimerFunction);
+            MyTimer.Start();
         }
         private void TimerFunction(object sender, EventArgs e)
         {
+            //vectorL = 
             pictureBox1.Invalidate();
         }
 
@@ -153,11 +166,15 @@ namespace Grafika
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             ks = trackBar1.Value / 100.0;
+            kd = 1.0 - ks;
+            trackBar2.Value = (int)(kd * 100);
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             kd = trackBar2.Value / 100.0;
+            ks = 1.0 - kd;
+            trackBar1.Value = (int)(ks * 100);
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
@@ -226,18 +243,19 @@ namespace Grafika
         {
             if(checkBox2.Checked)
             {
-                kd = random.NextDouble();
-                ks = random.NextDouble();
-                m = random.Next(1, 100);
-                trackBar1.Value = (int)(kd * 100);
-                trackBar2.Value = (int)(ks * 100);
-                trackBar3.Value = m;
+                randomKdKsM = true;
                 trackBar1.Enabled = false;
                 trackBar2.Enabled = false;
                 trackBar3.Enabled = false;
+                foreach(var triangle in picture.Triangles)
+                {
+                    triangle.KS = random.NextDouble();
+                    triangle.M = random.Next(1, 100);
+                }
             }
             else
             {
+                randomKdKsM = false;
                 trackBar1.Enabled = true;
                 trackBar2.Enabled = true;
                 trackBar3.Enabled = true;

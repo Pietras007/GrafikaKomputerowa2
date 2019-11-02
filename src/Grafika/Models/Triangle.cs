@@ -1,4 +1,6 @@
-﻿using Grafika.Extentions;
+﻿using Grafika.CONST;
+using Grafika.Extentions;
+using Grafika.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,6 +12,8 @@ namespace Grafika.Models
 {
     public class Triangle
     {
+        public double KS { get; set; }
+        public int M { get; set; }
         public Vertice A { get; set; }
         public Vertice B { get; set; }
         public Vertice C { get; set; }
@@ -59,6 +63,66 @@ namespace Grafika.Models
 
 
             return (aETPointers, GetYminFromAll());
+        }
+
+        public (Color, Color, Color) GetColorsABC(Vector N, Vector L, Vector V, OpcjaWektoraN opcjaWektoraN, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double kd, double ks, int m, Color lightColor)
+        {
+            List<Color> colors = new List<Color>();
+            if (wypelnienie == Wypelnienie.Tekstura)
+            {
+                colors.Add(sampleImage[RoundX(A.X), RoundY(A.Y)]);
+                colors.Add(sampleImage[RoundX(B.X), RoundY(B.Y)]);
+                colors.Add(sampleImage[RoundX(C.X), RoundY(C.Y)]);
+            }
+            else
+            {
+                colors.Add(backColor);
+                colors.Add(backColor);
+                colors.Add(backColor);
+            }
+            for(int i=0;i<colors.Count;i++)
+            {
+                var c = colors[i];
+                if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
+                {
+                    if (i == 0)
+                    {
+                        N = VectorHelper.CountVectorN(normalMap[A.X, A.Y]);
+                    }
+                    else if(i == 1)
+                    {
+                        N = VectorHelper.CountVectorN(normalMap[B.X, B.Y]);
+                    }
+                    else
+                    {
+                        N = VectorHelper.CountVectorN(normalMap[C.X, C.Y]);
+                    }
+                }
+                Vector R = VectorHelper.CreateVectorR(N, L);
+                c = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, c, N, L, V, R);
+            }
+            
+            return (colors[0], colors[1], colors[2]);
+        }
+
+        private int RoundX(int x)
+        {
+            if (x < 0)
+                return x;
+            else if (x >= CONST.CONST.bitmapX)
+                return CONST.CONST.bitmapX - 1;
+            else
+                return x;
+        }
+
+        private int RoundY(int y)
+        {
+            if (y < 0)
+                return y;
+            else if (y >= CONST.CONST.bitmapY)
+                return CONST.CONST.bitmapY - 1;
+            else
+                return y;
         }
 
         public int GetYmax()

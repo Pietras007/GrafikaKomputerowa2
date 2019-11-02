@@ -7,28 +7,19 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Grafika.Helpers;
 
 namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void Fill(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
+        public static void FillDokladne(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector L, Vector N, Vector V)
         {
-            double Lx = 0;
-            double Ly = 0;
-            double Lz = 1;
-            if (trybPracy == TrybPracy.SwiatloWedrujace)
-            {
-                Lx = vectorL.X;
-                Ly = vectorL.Y;
-                Lz = vectorL.Z;
-            }
-
             for (int i = 0; i < AET.Count; i += 2)
             {
                 for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    if (x < 720 && y < 576)
+                    if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
                     {
                         Color color = backColor;
                         if (wypelnienie == Wypelnienie.Tekstura)
@@ -36,44 +27,63 @@ namespace Grafika.Helpers
                             color = sampleImage[x, y];
                         }
 
-                        double Nx = 0;
-                        double Ny = 0;
-                        double Nz = 1;
                         if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
                         {
-                            Nx = (color.R - 127) / 127;
-                            Ny = (color.G - 127) / 127;
-                            Nz = (color.B - 127) / 127;
+                            N = VectorHelper.CountVectorN(normalMap[x, y]);
                         }
-
-                        double Vx = 0;
-                        double Vy = 0;
-                        double Vz = 1;
-                        double Rx = 2 * Nx - Lx;
-                        double Ry = 2 * Ny - Ly;
-                        double Rz = 2 * Nz - Lz;
-
-                        double cosNL = Nx * Lx + Ny * Ly + Nz * Lz;
-                        double cosVR = Vx * Rx + Vy * Ry + Vz * Rz;
-
-                        double Ir = kd * ((double)lightColor.R / 255) * ((double)color.R / 255) * cosNL + ks * ((double)lightColor.R / 255) * ((double)color.R / 255) * Math.Pow(cosVR, m);
-                        double Ig = kd * ((double)lightColor.G / 255) * ((double)color.G / 255) * cosNL + ks * ((double)lightColor.G / 255) * ((double)color.G / 255) * Math.Pow(cosVR, m);
-                        double Ib = kd * ((double)lightColor.B / 255) * ((double)color.B / 255) * cosNL + ks * ((double)lightColor.B / 255) * ((double)color.B / 255) * Math.Pow(cosVR, m);
-                        Ir = Round01(Ir);
-                        Ig = Round01(Ig);
-                        Ib = Round01(Ib);
-                        colorToPaint[x, y] = Color.FromArgb((int)(Ir * 255), (int)(Ig * 255), (int)(Ib * 255));
+                        Vector R = VectorHelper.CreateVectorR(N, L);
+                        colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L, V, R);
                     }
                 }
             }
         }
-        private static double Round01(double x)
+
+        public static void FillInterpolowane(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, Color, Color) triangleColorsABC, Triangle triangle)
+        {
+            for (int i = 0; i < AET.Count; i += 2)
+            {
+                for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
+                {
+                    if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
+                    {
+                        var A = triangle.A;
+                        var B = triangle.B;
+                        var C = triangle.C;
+                        double alpha = (x - C.X - (C.Y - y) / (C.Y - B.Y) * B.X - (y - C.Y) / (C.Y - B.Y) * C.X) / (A.X + (A.Y - C.Y) / (C.Y - B.Y) * B.X - C.X - (A.Y - C.Y) / (C.Y - B.Y) * C.X);
+                        double beta = alpha * (A.Y - C.Y) / (C.Y - B.Y) + (C.Y - y) / (C.Y - B.Y);
+                        double gamma = 1 - alpha - beta;
+                        int R_ = (int)Round255(alpha * triangleColorsABC.Item1.R + beta * triangleColorsABC.Item2.R + gamma * triangleColorsABC.Item3.R);
+                        int G_ = (int)Round255(alpha * triangleColorsABC.Item1.G + beta * triangleColorsABC.Item2.G + gamma * triangleColorsABC.Item3.G);
+                        int B_ = (int)Round255(alpha * triangleColorsABC.Item1.B + beta * triangleColorsABC.Item2.B + gamma * triangleColorsABC.Item3.B);
+                        colorToPaint[x, y] = Color.FromArgb(R_, G_, B_);
+                    }
+                }
+            }
+        }
+
+
+        public static double Round01(double x)
         {
             if(x > 1)
             {
                 return 1;
             }
             else if(x < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return x;
+            }
+        }
+        public static double Round255(double x)
+        {
+            if (x > 255)
+            {
+                return 255;
+            }
+            else if (x < 0)
             {
                 return 0;
             }

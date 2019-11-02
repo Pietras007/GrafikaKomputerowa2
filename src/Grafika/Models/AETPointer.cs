@@ -24,19 +24,14 @@ namespace Grafika.Models
             if(A.Y > B.Y)
             {
                 Ymax = A.Y;
-            }
-            else
-            {
-                Ymax = B.Y;
-            }
-            if(A.Y > B.Y)
-            {
                 X = B.X;
             }
             else
             {
+                Ymax = B.Y;
                 X = A.X;
             }
+
             if((B.Y > A.Y && B.X > A.X) || (B.Y < A.Y && B.X < A.X))
             {
                 m = 1 / (Math.Abs(B.Y - A.Y) / (double)Math.Abs(B.X - A.X));

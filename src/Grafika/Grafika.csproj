@@ -58,9 +58,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\FigureHelper.cs" />
     <Compile Include="Helpers\FillingHelper.cs" />
     <Compile Include="Helpers\ScanLineHelpers.cs" />
+    <Compile Include="Helpers\VectorHelper.cs" />
     <Compile Include="Models\AETPointer.cs" />
     <Compile Include="Models\Edge.cs" />
     <Compile Include="Models\Picture.cs" />
