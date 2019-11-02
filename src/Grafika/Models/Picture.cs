@@ -17,14 +17,14 @@ namespace Grafika.Models
         }
         public void GenerateSampleTriangle(int n, int m)
         {
-            int width = CONST.CONST.bitmapX / n;
-            int height = CONST.CONST.bitmapY / m;
+            double width = (double)CONST.CONST.bitmapX / n;
+            double height = (double)CONST.CONST.bitmapY / m;
             listVertices = new Vertice[n + 1, m + 1];
             for (int j = 0; j < m + 1; j++)
             {
                 for (int i = 0; i < n + 1; i++)
                 {
-                    listVertices[i, j] = new Vertice(i * width, j * height);
+                    listVertices[i, j] = new Vertice((int)(i * width), (int)(j * height));
                 }
             }
 
