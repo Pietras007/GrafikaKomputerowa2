@@ -11,9 +11,9 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
+        public static List<(Color, int, int)> Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
         {
-
+            List<(Color, int, int)> list = new List<(Color, int, int)>();
             double Lx = 0;
             double Ly = 0;
             double Lz = 1;
@@ -71,13 +71,11 @@ namespace Grafika.Helpers
                         {
                             Ib = 1;
                         }
-                        using (SolidBrush solidBrush = new SolidBrush(Color.FromArgb((int)(Ir*255), (int)(Ig*255), (int)(Ib*255))))
-                        {
-                            g.FillRectangle(solidBrush, x, y, 1, 1);
-                        }
+                        list.Add((Color.FromArgb((int)(Ir * 255), (int)(Ig * 255), (int)(Ib * 255)), x, y));
                     }
                 }
             }
+            return list;
         }
     }
 }
