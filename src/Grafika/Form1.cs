@@ -20,6 +20,7 @@ namespace Grafika
         Bitmap sampleImage;
         Color backColor;
         Color lightColor;
+        Color[,] sampleImageColor;
         public int sizeX;
         public int sizeY;
         public TrybPracy trybPracy;
@@ -48,8 +49,9 @@ namespace Grafika
             }
             else
             {
-                g.Paint(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
+                g.Paint(picture, wypelnienie, sampleImageColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
             }
+            pictureBox1.Invalidate();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -57,6 +59,14 @@ namespace Grafika
             isMoving = false;
             random = new Random();
             sampleImage = new Bitmap("picture.jpg");
+            sampleImageColor = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
+            for (int i=0;i<CONST.CONST.bitmapX;i++)
+            {
+                for(int j=0;j<CONST.CONST.bitmapY;j++)
+                {
+                    sampleImageColor[i, j] = sampleImage.GetPixel(i, j);
+                }
+            }
             textBox1.Text = CONST.CONST.trianglesX.ToString();
             textBox2.Text = CONST.CONST.trianglesY.ToString();
             textBox3.BackColor = Color.White;
@@ -70,9 +80,10 @@ namespace Grafika
             radioButton1.Checked = true;
             checkBox2.Checked = true;
             picture.InitializePicture(sizeX, sizeY);
-            MyTimer.Interval = (15);
-            MyTimer.Tick += new EventHandler(TimerFunction);
-            MyTimer.Start();
+            //MyTimer.Interval = (15);
+            //MyTimer.Tick += new EventHandler(TimerFunction);
+            //MyTimer.Start();
+            pictureBox1.Invalidate();
         }
         private void TimerFunction(object sender, EventArgs e)
         {

@@ -11,7 +11,7 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static List<(Color, int, int)> Fill(this Graphics g, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Bitmap sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
+        public static void Fill(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
         {
             List<(Color, int, int)> list = new List<(Color, int, int)>();
             double Lx = 0;
@@ -33,7 +33,7 @@ namespace Grafika.Helpers
                         Color color = backColor;
                         if (wypelnienie == Wypelnienie.Tekstura)
                         {
-                            color = sampleImage.GetPixel(x, y);
+                            color = sampleImage[x, y];
                         }
 
                         double Nx = 0;
@@ -71,11 +71,10 @@ namespace Grafika.Helpers
                         {
                             Ib = 1;
                         }
-                        list.Add((Color.FromArgb((int)(Ir * 255), (int)(Ig * 255), (int)(Ib * 255)), x, y));
+                        colorToPaint[x, y] = Color.FromArgb((int)(Ir * 255), (int)(Ig * 255), (int)(Ib * 255));
                     }
                 }
             }
-            return list;
         }
     }
 }
