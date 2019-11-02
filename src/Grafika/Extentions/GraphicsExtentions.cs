@@ -3,6 +3,7 @@ using Grafika.Helpers;
 using Grafika.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -45,11 +46,11 @@ namespace Grafika.Extentions
 
         public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector vectorL)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             var colorToPaint = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
-            var task = Task.Factory.StartNew(() => g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL));
-            task.Wait();
-            //g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
-           
+            g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
+            sw.Stop();
 
             using (Bitmap processedBitmap = new Bitmap(CONST.CONST.bitmapX, CONST.CONST.bitmapY))
             {
@@ -104,9 +105,8 @@ namespace Grafika.Extentions
             Color backColor = Color.FromArgb(red, green, blue);
             List<AETPointer>[] ET = triangle.GetETTable();
             List<AETPointer> AET = new List<AETPointer>();
-            List<(Color, int, int)> list = new List<(Color, int, int)>();
-            for (int y = 0; y <= ET.Length - 1; y++)
-            {
+           for (int y = 0; y <= ET.Length - 1; y++)
+           {
                 g.Fill(colorToPaint, AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, triangle, vectorL);
 
                 for (int i = AET.Count - 1; i >= 0; i--)

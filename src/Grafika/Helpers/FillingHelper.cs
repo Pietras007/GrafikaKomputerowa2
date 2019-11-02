@@ -2,6 +2,7 @@
 using Grafika.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,6 @@ namespace Grafika.Helpers
     {
         public static void Fill(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Triangle triangle, Vector vectorL)
         {
-            List<(Color, int, int)> list = new List<(Color, int, int)>();
             double Lx = 0;
             double Ly = 0;
             double Lz = 1;
@@ -39,11 +39,11 @@ namespace Grafika.Helpers
                         double Nx = 0;
                         double Ny = 0;
                         double Nz = 1;
-                        if(opcjaWektoraN == OpcjaWektoraN.Tekstura)
+                        if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
                         {
-                            Nx = color.R / 255;
-                            Ny = color.G / 255;
-                            Nz = color.B / 255;
+                            Nx = (color.R - 127) / 127;
+                            Ny = (color.G - 127) / 127;
+                            Nz = (color.B - 127) / 127;
                         }
 
                         double Vx = 0;
@@ -59,21 +59,27 @@ namespace Grafika.Helpers
                         double Ir = kd * ((double)lightColor.R / 255) * ((double)color.R / 255) * cosNL + ks * ((double)lightColor.R / 255) * ((double)color.R / 255) * Math.Pow(cosVR, m);
                         double Ig = kd * ((double)lightColor.G / 255) * ((double)color.G / 255) * cosNL + ks * ((double)lightColor.G / 255) * ((double)color.G / 255) * Math.Pow(cosVR, m);
                         double Ib = kd * ((double)lightColor.B / 255) * ((double)color.B / 255) * cosNL + ks * ((double)lightColor.B / 255) * ((double)color.B / 255) * Math.Pow(cosVR, m);
-                        if (Ir > 1)
-                        {
-                            Ir = 1;
-                        }
-                        if (Ig > 1)
-                        {
-                            Ig = 1;
-                        }
-                        if (Ib > 1)
-                        {
-                            Ib = 1;
-                        }
+                        Ir = Round01(Ir);
+                        Ig = Round01(Ig);
+                        Ib = Round01(Ib);
                         colorToPaint[x, y] = Color.FromArgb((int)(Ir * 255), (int)(Ig * 255), (int)(Ib * 255));
                     }
                 }
+            }
+        }
+        private static double Round01(double x)
+        {
+            if(x > 1)
+            {
+                return 1;
+            }
+            else if(x < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return x;
             }
         }
     }
