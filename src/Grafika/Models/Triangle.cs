@@ -41,28 +41,24 @@ namespace Grafika.Models
             return null;
         }
 
-        public List<AETPointer>[] GetETTable()
+        public (List<AETPointer>[], int) GetETTable()
         {
             List<AETPointer>[] aETPointers = new List<AETPointer>[GetYmax() + 1];
-            for (int i = 0; i < aETPointers.Length; i++)
-            {
-                aETPointers[i] = new List<AETPointer>();
-            }
             foreach(var e in edges)
             {
                 AETPointer aETPointer = new AETPointer(e.start, e.end);
                 if(1/aETPointer.m != 0)
                 {
+                    if(aETPointers[GetYmin(e.start, e.end)] == null)
+                    {
+                        aETPointers[GetYmin(e.start, e.end)] = new List<AETPointer>();
+                    }
                     aETPointers[GetYmin(e.start, e.end)].Add(aETPointer);
                 }
             }
 
-            //for (int i = 0; i < aETPointers.Length; i++)
-            //{
-            //    aETPointers[i] = aETPointers[i].OrderBy(o => o.X).ThenBy(x => x.m).ToList();
-            //}
 
-            return aETPointers;
+            return (aETPointers, GetYminFromAll());
         }
 
         public int GetYmax()
@@ -76,6 +72,19 @@ namespace Grafika.Models
                 }
             }
             return yMax;
+        }
+
+        public int GetYminFromAll()
+        {
+            int yMin = 0;
+            foreach (var v in vertices)
+            {
+                if (v.Y < yMin)
+                {
+                    yMin = v.Y;
+                }
+            }
+            return yMin;
         }
 
         public int GetYmin(Vertice A, Vertice B)

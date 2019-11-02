@@ -90,10 +90,10 @@ namespace Grafika.Extentions
 
         public static void PaintHandler(this Graphics g, Color[,] colorToPaint, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector vectorL)
         {
-            foreach (var triangle in picture.Triangles)
+            Parallel.ForEach(picture.Triangles, (triangle) =>
             {
                 g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL);
-            }
+            });
         }
 
         public static void PaintTriangle(this Graphics g, Color[,] colorToPaint, Triangle triangle, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector vectorL)
@@ -103,9 +103,10 @@ namespace Grafika.Extentions
             int green = random.Next(0, 255);
             int blue = random.Next(0, 255);
             Color backColor = Color.FromArgb(red, green, blue);
-            List<AETPointer>[] ET = triangle.GetETTable();
+            var data = triangle.GetETTable();
+            List<AETPointer>[] ET = data.Item1;
             List<AETPointer> AET = new List<AETPointer>();
-           for (int y = 0; y <= ET.Length - 1; y++)
+           for (int y = data.Item2; y <= ET.Length - 1; y++)
            {
                 g.Fill(colorToPaint, AET, y, picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, triangle, vectorL);
 
@@ -117,7 +118,7 @@ namespace Grafika.Extentions
                     }
                 }
 
-                if (ET[y].Count > 0)
+                if (ET[y] != null)
                 {
                     AET.AddRange(ET[y]);
                     AET = AET.OrderBy(o => o.X).ThenBy(x => x.m).ToList();
