@@ -8,10 +8,10 @@ namespace Grafika.CONST
 {
     public static class CONST
     {
-        public static int pointRound = 3;
-        public static int bitmapX = 720;
-        public static int bitmapY = 576;
-        public static int trianglesX = 4;
-        public static int trianglesY = 3;
+        public const int pointRound = 3;
+        public const int bitmapX = 720;
+        public const int bitmapY = 576;
+        public const int trianglesX = 4;
+        public const int trianglesY = 3;
     }
 }

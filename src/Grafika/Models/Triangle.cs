@@ -13,6 +13,7 @@ namespace Grafika.Models
     public class Triangle
     {
         public double KS { get; set; }
+        public double KD { get; set; }
         public int M { get; set; }
         public Vertice A { get; set; }
         public Vertice B { get; set; }

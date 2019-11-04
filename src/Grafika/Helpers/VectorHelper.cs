@@ -12,7 +12,9 @@ namespace Grafika.Helpers
     {
         public static Vector CreateVectorR(Vector N, Vector L)
         {
-            return new Vector(2 * N.X - L.X, 2 * N.Y - L.Y, 2 * N.Z - L.Z);
+            //return new Vector(2 * N.X - L.X, 2 * N.Y - L.Y, 2 * N.Z - L.Z);
+            double cosinus = CountCosunis(N, L);
+            return new Vector(2 *cosinus* N.X - L.X, 2 * cosinus * N.Y - L.Y, 2 * cosinus * N.Z - L.Z);
         }
 
         public static double CountCosunis(Vector A, Vector B)
@@ -22,12 +24,16 @@ namespace Grafika.Helpers
 
         public static Vector CountVectorN(Color color)
         {
-            int R = color.R - 127;
-            int G = color.G - 127;
-            int B = color.B - 127;
-            double length = Math.Sqrt(Math.Pow(R, 2) + Math.Pow(G, 2) + Math.Pow(B, 2));
-            return new Vector(R / length, G / length, B / length);
-            //return new Vector((color.R - 127) / 127, (color.G - 127) / 127, (color.B - 127) / 127);
+            double R = (double)(color.R - 127) / 127;
+            double G = (double)(color.G - 127) / 127;
+            double B = (double)(color.B) / 255;
+            return NormalizeVector(new Vector(R, G, B));
+        }
+
+        public static Vector NormalizeVector(Vector vector)
+        {
+            double length = Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2) + Math.Pow(vector.Z, 2));
+            return new Vector(vector.X / length, vector.Y / length, vector.Z / length);
         }
     }
 }

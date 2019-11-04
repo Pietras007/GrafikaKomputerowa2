@@ -35,7 +35,8 @@ namespace Grafika
         double ks;
         double kd;
         int m;
-        Vector vectorL;
+        (int, int, int) lightSource;
+        double move = 0.01;
         Random random;
         public Form1()
         {
@@ -51,7 +52,7 @@ namespace Grafika
             }
             else
             {
-                g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL, randomKdKsM);
+                g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
             }
         }
 
@@ -60,12 +61,12 @@ namespace Grafika
             isMoving = false;
             random = new Random();
             sampleImage = new Bitmap("picture.jpg");
-            Bitmap normalMap = new Bitmap("normal.png");
-            sampleImageColor = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
-            normalMapColor = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
-            for (int i=0;i<CONST.CONST.bitmapX;i++)
+            Bitmap normalMap = new Bitmap("normal.jpg");
+            sampleImageColor = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
+            normalMapColor = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
+            for (int i=0;i<CONST.CONST.bitmapX + 1;i++)
             {
-                for(int j=0;j<CONST.CONST.bitmapY;j++)
+                for(int j=0;j<CONST.CONST.bitmapY + 1;j++)
                 {
                     sampleImageColor[i, j] = sampleImage.GetPixel(i, j);
                     normalMapColor[i, j] = normalMap.GetPixel(i, j);
@@ -90,8 +91,8 @@ namespace Grafika
             trackBar1.Value = (int)(kd * 100);
             trackBar2.Value = (int)(ks * 100);
             trackBar3.Value = m;
-            //
-            vectorL = new Vector(0, 0, 1);
+            //   
+            lightSource = (CONST.CONST.bitmapX / 2, CONST.CONST.bitmapX / 2, 20);
             picture.InitializePicture(sizeX, sizeY);
             MyTimer.Interval = (20);
             MyTimer.Tick += new EventHandler(TimerFunction);
@@ -99,7 +100,12 @@ namespace Grafika
         }
         private void TimerFunction(object sender, EventArgs e)
         {
-            //vectorL = 
+
+
+            //vectorL.X = _x;
+            //vectorL.Y = _y;
+            //vectorL.Z = _z;
+            //vectorL = VectorHelper.NormalizeVector(vectorL);
             pictureBox1.Invalidate();
         }
 
@@ -166,15 +172,11 @@ namespace Grafika
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             ks = trackBar1.Value / 100.0;
-            kd = 1.0 - ks;
-            trackBar2.Value = (int)(kd * 100);
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             kd = trackBar2.Value / 100.0;
-            ks = 1.0 - kd;
-            trackBar1.Value = (int)(ks * 100);
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
@@ -250,6 +252,7 @@ namespace Grafika
                 foreach(var triangle in picture.Triangles)
                 {
                     triangle.KS = random.NextDouble();
+                    triangle.KD = random.NextDouble();
                     triangle.M = random.Next(1, 100);
                 }
             }

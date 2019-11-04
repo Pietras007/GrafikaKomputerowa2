@@ -12,6 +12,7 @@ namespace Grafika.Helpers
     {
         public static Color CalculateColorToPaint(double kd, double ks, int m, Color lightColor, Color color, Vector N, Vector L, Vector V, Vector R)
         {
+            R = VectorHelper.NormalizeVector(R);
             double cosNL = VectorHelper.CountCosunis(N, L);
             double cosVR = VectorHelper.CountCosunis(V, R);
             double Ir = kd * ((double)lightColor.R / 255) * ((double)color.R / 255) * cosNL + ks * ((double)lightColor.R / 255) * ((double)color.R / 255) * Math.Pow(cosVR, m);

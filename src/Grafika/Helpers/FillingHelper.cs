@@ -13,7 +13,7 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void FillDokladne(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, Vector L, Vector N, Vector V)
+        public static void FillDokladne(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, Vector N, Vector V)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
@@ -30,6 +30,12 @@ namespace Grafika.Helpers
                         if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
                         {
                             N = VectorHelper.CountVectorN(normalMap[x, y]);
+                        }
+                        Vector L = new Vector(0, 0, 1);
+                        if(trybPracy == TrybPracy.SwiatloWedrujace)
+                        {
+                            L = new Vector(lightSource.Item1 - x, y - lightSource.Item2 - y, lightSource.Item3);
+                            L = VectorHelper.NormalizeVector(L);
                         }
                         Vector R = VectorHelper.CreateVectorR(N, L);
                         colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L, V, R);
