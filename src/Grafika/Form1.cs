@@ -37,6 +37,8 @@ namespace Grafika
         int m;
         (int, int, int) lightSource;
         double t = 1;
+        int zHeight;
+        int z = 1;
         Random random;
         public Form1()
         {
@@ -85,6 +87,7 @@ namespace Grafika
             trackBar2.Value = (int)(ks * 100);
             trackBar3.Value = m;
             //   
+            zHeight = 50;
             triangleWeb = true;
             lightSource = (CONST.CONST.bitmapX / 2, CONST.CONST.bitmapX / 2, 50);
             picture.InitializePicture(sizeX, sizeY);
@@ -96,7 +99,16 @@ namespace Grafika
         {
             double newX = CONST.CONST.bitmapX / 2 * Math.Sin(t + 5 * Math.PI / 2) + CONST.CONST.bitmapX / 2;
             double newY = CONST.CONST.bitmapY / 2 * Math.Sin(4 * t) + CONST.CONST.bitmapY / 2;
-            lightSource = ((int)newX, (int)newY, 50);
+            if (zHeight > 150)
+            {
+                z = -1;
+            }
+            if (zHeight < 5)
+            {
+                z = 1;
+            }
+            zHeight += z;
+            lightSource = ((int)newX, (int)newY, zHeight);
             t += 0.01;
             pictureBox1.Invalidate();
         }
