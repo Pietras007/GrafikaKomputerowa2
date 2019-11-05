@@ -48,37 +48,27 @@ namespace Grafika.Helpers
             {
                 for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    double ABC = TriangleHelper.TriangleArea(triangleColorsABC[0].Item2, triangleColorsABC[1].Item2, triangleColorsABC[2].Item2);
-                    double alpha = TriangleHelper.TriangleArea((x, y), triangleColorsABC[1].Item2, triangleColorsABC[2].Item2) / ABC;
-                    double beta = TriangleHelper.TriangleArea(triangleColorsABC[0].Item2, (x, y), triangleColorsABC[2].Item2) / ABC;
-                    double gamma = TriangleHelper.TriangleArea(triangleColorsABC[0].Item2, triangleColorsABC[1].Item2, (x, y)) / ABC;
-                    int R_ = (int)Round255(alpha * triangleColorsABC[0].Item1.R + beta * triangleColorsABC[1].Item1.R + gamma * triangleColorsABC[2].Item1.R);
-                    int G_ = (int)Round255(alpha * triangleColorsABC[0].Item1.G + beta * triangleColorsABC[1].Item1.G + gamma * triangleColorsABC[2].Item1.G);
-                    int B_ = (int)Round255(alpha * triangleColorsABC[0].Item1.B + beta * triangleColorsABC[1].Item1.B + gamma * triangleColorsABC[2].Item1.B);
-                    colorToPaint[x, y] = Color.FromArgb(R_, G_, B_);
+                    colorToPaint[x, y] = TriangleHelper.CountBarycentricCoordinateSystemColor(triangleColorsABC, x, y);
                 }
             }
         }
 
-        public static void FillHybrydowe(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, Color, Color) triangleColorsABC, Triangle triangle)
+        public static void FillHybrydowe(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (Color, (int, int))[] triangleJustColor, ((double, double, double), (int, int))[] triangleVectorABC)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
                 for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
+                    Color color = TriangleHelper.CountBarycentricCoordinateSystemColor(triangleJustColor, x, y);
+                    (double, double, double) N = VectorHelper.NormalizeVector(TriangleHelper.CountBarycentricCoordinateSystemVector(triangleVectorABC, x, y));
+
+                    (double, double, double) L = (0, 0, 1);
+                    if (trybPracy == TrybPracy.SwiatloWedrujace)
                     {
-                        var A = triangle.A;
-                        var B = triangle.B;
-                        var C = triangle.C;
-                        double alpha = (x - C.X - (C.Y - y) / (C.Y - B.Y) * B.X - (y - C.Y) / (C.Y - B.Y) * C.X) / (A.X + (A.Y - C.Y) / (C.Y - B.Y) * B.X - C.X - (A.Y - C.Y) / (C.Y - B.Y) * C.X);
-                        double beta = alpha * (A.Y - C.Y) / (C.Y - B.Y) + (C.Y - y) / (C.Y - B.Y);
-                        double gamma = 1 - alpha - beta;
-                        int R_ = (int)Round255(alpha * triangleColorsABC.Item1.R + beta * triangleColorsABC.Item2.R + gamma * triangleColorsABC.Item3.R);
-                        int G_ = (int)Round255(alpha * triangleColorsABC.Item1.G + beta * triangleColorsABC.Item2.G + gamma * triangleColorsABC.Item3.G);
-                        int B_ = (int)Round255(alpha * triangleColorsABC.Item1.B + beta * triangleColorsABC.Item2.B + gamma * triangleColorsABC.Item3.B);
-                        colorToPaint[x, y] = Color.FromArgb(R_, G_, B_);
+                        L = VectorHelper.CountVectorL(x, y, lightSource);
                     }
+
+                    colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L);
                 }
             }
         }
@@ -99,20 +89,6 @@ namespace Grafika.Helpers
                 return x;
             }
         }
-        public static double Round255(double x)
-        {
-            if (x > 255)
-            {
-                return 255;
-            }
-            else if (x < 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return x;
-            }
-        }
+
     }
 }

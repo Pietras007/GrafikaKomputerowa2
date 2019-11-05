@@ -123,7 +123,18 @@ namespace Grafika.Extentions
             }
 
             //GetColors inTriangle
-            (Color, (int, int))[] triangleColorsABC = triangle.GetColorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+            (Color, (int, int))[] triangleCountedColorsABC = null;
+            (Color, (int, int))[] triangleJustColor = null;
+            ((double, double, double), (int, int))[] triangleVectorABC = null;
+            if (rodzajMalowania == RodzajMalowania.Interpolowane)
+            {
+                triangleCountedColorsABC = triangle.CountColorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+            }
+            else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
+            {
+                triangleJustColor = triangle.GetColorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+                triangleVectorABC = triangle.GetVectorsNABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+            }
 
             for (int y = data.Item2; y <= ET.Length - 1; y++)
             {
@@ -133,11 +144,11 @@ namespace Grafika.Extentions
                 }
                 else if(rodzajMalowania == RodzajMalowania.Interpolowane)
                 {
-                    g.FillInterpolowane(colorToPaint, AET, y, triangleColorsABC);
+                    g.FillInterpolowane(colorToPaint, AET, y, triangleCountedColorsABC);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
                 {
-                    //g.FillHybrydowe(colorToPaint, AET, y, triangleColorsABC, triangle);
+                    g.FillHybrydowe(colorToPaint, AET, y, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, triangleJustColor, triangleVectorABC);
                 }
 
                 for (int i = AET.Count - 1; i >= 0; i--)

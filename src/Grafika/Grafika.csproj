@@ -61,7 +61,6 @@
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\FigureHelper.cs" />
     <Compile Include="Helpers\FillingHelper.cs" />
-    <Compile Include="Helpers\ScanLineHelpers.cs" />
     <Compile Include="Helpers\TriangleHelper.cs" />
     <Compile Include="Helpers\VectorHelper.cs" />
     <Compile Include="Models\AETPointer.cs" />

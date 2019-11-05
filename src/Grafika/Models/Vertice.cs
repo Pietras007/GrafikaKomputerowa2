@@ -18,8 +18,11 @@ namespace Grafika.Models
 
         public void MoveVerticeTo(Vertice vertice)
         {
-            X = vertice.X;
-            Y = vertice.Y;
+            if (vertice.X >= 0 && vertice.X <= CONST.CONST.bitmapX && vertice.Y >= 0 && vertice.Y <= CONST.CONST.bitmapY)
+            {
+                X = vertice.X;
+                Y = vertice.Y;
+            }
         }
     }
 }

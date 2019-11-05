@@ -36,9 +36,9 @@ namespace Grafika.Models
         }
         public Vertice GetVertice(Vertice vertice)
         {
-            foreach(var v in vertices)
+            foreach (var v in vertices)
             {
-                if(v.IsVertice(vertice))
+                if (v.IsVertice(vertice))
                 {
                     return v;
                 }
@@ -48,17 +48,18 @@ namespace Grafika.Models
 
         public (List<AETPointer>[], int) GetETTable()
         {
-            List<AETPointer>[] aETPointers = new List<AETPointer>[GetYmax() + 1];
-            foreach(var e in edges)
+            List<AETPointer>[] aETPointers = new List<AETPointer>[GetYmaxFromAll() + 1];
+            foreach (var e in edges)
             {
                 AETPointer aETPointer = new AETPointer(e.start, e.end);
-                if(1/aETPointer.m != 0)
+                if (1 / aETPointer.m != 0)
                 {
-                    if(aETPointers[GetYmin(e.start, e.end)] == null)
+                    int yMin = Math.Min(e.start.Y, e.end.Y);
+                    if (aETPointers[yMin] == null)
                     {
-                        aETPointers[GetYmin(e.start, e.end)] = new List<AETPointer>();
+                        aETPointers[yMin] = new List<AETPointer>();
                     }
-                    aETPointers[GetYmin(e.start, e.end)].Add(aETPointer);
+                    aETPointers[yMin].Add(aETPointer);
                 }
             }
 
@@ -66,67 +67,83 @@ namespace Grafika.Models
             return (aETPointers, GetYminFromAll());
         }
 
-        public (Color, (int, int))[] GetColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
+        public (Color, (int, int))[] CountColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
             (Color, (int, int))[] resultColors = new (Color, (int, int))[3];
-            for(int i=0;i<vertices.Count;i++)
+            for (int i = 0; i < vertices.Count; i++)
             {
                 var vertice = vertices[i];
                 int x = vertice.X;
                 int y = vertice.Y;
-                //if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
+                Color color = backColor;
+                if (wypelnienie == Wypelnienie.Tekstura)
                 {
-                    Color color = backColor;
-                    if (wypelnienie == Wypelnienie.Tekstura)
-                    {
-                        color = sampleImage[x, y];
-                    }
-
-                    (double, double, double) N = (0, 0, 1);
-                    if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
-                    {
-                        N = VectorHelper.CountVectorN(normalMap[x, y]);
-                    }
-
-                    (double, double, double) L = (0, 0, 1);
-                    if (trybPracy == TrybPracy.SwiatloWedrujace)
-                    {
-                        L = VectorHelper.CountVectorL(x, y, lightSource);
-                    }
-                    resultColors[i] = (ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L), (x, y));
+                    color = sampleImage[x, y];
                 }
 
+                (double, double, double) N = (0, 0, 1);
+                if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
+                {
+                    N = VectorHelper.CountVectorN(normalMap[x, y]);
+                }
+
+                (double, double, double) L = (0, 0, 1);
+                if (trybPracy == TrybPracy.SwiatloWedrujace)
+                {
+                    L = VectorHelper.CountVectorL(x, y, lightSource);
+                }
+                resultColors[i] = (ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L), (x, y));
+
             }
-            
+
             return resultColors;
         }
 
-        private int RoundX(int x)
+        public (Color, (int, int))[] GetColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
-            if (x < 0)
-                return x;
-            else if (x >= CONST.CONST.bitmapX)
-                return CONST.CONST.bitmapX - 1;
-            else
-                return x;
+            (Color, (int, int))[] resultColors = new (Color, (int, int))[3];
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                var vertice = vertices[i];
+                int x = vertice.X;
+                int y = vertice.Y;
+                Color color = backColor;
+                if (wypelnienie == Wypelnienie.Tekstura)
+                {
+                    color = sampleImage[x, y];
+                }
+                resultColors[i] = (color, (x, y));
+            }
+
+            return resultColors;
         }
 
-        private int RoundY(int y)
+        public ((double, double, double), (int, int))[] GetVectorsNABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
-            if (y < 0)
-                return y;
-            else if (y >= CONST.CONST.bitmapY)
-                return CONST.CONST.bitmapY - 1;
-            else
-                return y;
+            ((double, double, double), (int, int))[] resultVectors = new ((double, double, double), (int, int))[3];
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                var vertice = vertices[i];
+                int x = vertice.X;
+                int y = vertice.Y;
+
+                (double, double, double) N = (0, 0, 1);
+                if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
+                {
+                    N = VectorHelper.CountVectorN(normalMap[x, y]);
+                }
+                resultVectors[i] = (N, (x, y));
+            }
+
+            return resultVectors;
         }
 
-        public int GetYmax()
+        public int GetYmaxFromAll()
         {
             int yMax = 0;
-            foreach(var v in vertices)
+            foreach (var v in vertices)
             {
-                if(v.Y > yMax)
+                if (v.Y > yMax)
                 {
                     yMax = v.Y;
                 }
@@ -145,18 +162,6 @@ namespace Grafika.Models
                 }
             }
             return yMin;
-        }
-
-        public int GetYmin(Vertice A, Vertice B)
-        {
-            if(A.Y < B.Y)
-            {
-                return A.Y;
-            }
-            else
-            {
-                return B.Y;
-            }
         }
     }
 }
