@@ -29,7 +29,8 @@ namespace Grafika.Helpers
 
                         if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
                         {
-                            N = VectorHelper.CountVectorN(normalMap[x, y]);
+                            var a = VectorHelper.CountVectorN(normalMap[x, y]);
+                            N = new Vector( a.Item1, a.Item2,a.Item3);
                         }
                         Vector L = new Vector(0, 0, 1);
                         if(trybPracy == TrybPracy.SwiatloWedrujace)

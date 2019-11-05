@@ -22,12 +22,12 @@ namespace Grafika.Helpers
             return A.X * B.X + A.Y * B.Y + A.Z * B.Z;
         }
 
-        public static Vector CountVectorN(Color color)
+        public static (double, double, double) CountVectorN(Color color)
         {
             double R = (double)(color.R - 127) / 127;
             double G = -(double)(color.G - 127) / 127;
             double B = (double)(color.B) / 255;
-            return NormalizeVector(new Vector(R, G, B));
+            return NormalizeVector((R, G, B));
         }
 
         public static Vector CountVectorL(int x, int y, (int, int, int) lightSource)
@@ -41,7 +41,19 @@ namespace Grafika.Helpers
         public static Vector NormalizeVector(Vector vector)
         {
             double length = Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2) + Math.Pow(vector.Z, 2));
-            return new Vector(vector.X / length, vector.Y / length, vector.Z / length);
+            vector.X /= length;
+            vector.Y /= length;
+            vector.Z /= length;
+            return vector;
+        }
+
+        public static (double, double, double) NormalizeVector((double, double, double) vector)
+        {
+            double length = Math.Sqrt(Math.Pow(vector.Item1, 2) + Math.Pow(vector.Item2, 2) + Math.Pow(vector.Item3, 2));
+            vector.Item1 /= length;
+            vector.Item2 /= length;
+            vector.Item3 /= length;
+            return vector;
         }
     }
 }
