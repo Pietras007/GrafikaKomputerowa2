@@ -25,7 +25,7 @@ namespace Grafika.Extentions
         public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM, bool triangleWeb)
         {
             var colorToPaint = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
-            g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
+            PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
 
             using (Bitmap processedBitmap = new Bitmap(CONST.CONST.bitmapX, CONST.CONST.bitmapY))
             {
@@ -88,12 +88,12 @@ namespace Grafika.Extentions
 
         }
 
-        public static void PaintHandler(this Graphics g, Color[,] colorToPaint, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
+        public static void PaintHandler(Color[,] colorToPaint, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
         {
             Parallel.For(0, picture.Triangles.Count, (i) =>
             {
                 Triangle triangle = picture.Triangles[i];
-                g.PaintTriangle(colorToPaint, triangle, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
+                PaintTriangle(colorToPaint, triangle, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
             });
 
             //foreach (var triangle in picture.Triangles)
@@ -102,7 +102,7 @@ namespace Grafika.Extentions
             //}
         }
 
-        public static void PaintTriangle(this Graphics g, Color[,] colorToPaint, Triangle triangle, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
+        public static void PaintTriangle(Color[,] colorToPaint, Triangle triangle, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
         {
             var data = triangle.GetETTable();
             List<AETPointer>[] ET = data.Item1;
@@ -132,15 +132,15 @@ namespace Grafika.Extentions
             {
                 if (rodzajMalowania == RodzajMalowania.Dokladne)
                 {
-                    g.FillDokladne(colorToPaint, AET, y, wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+                    FillingHelper.FillDokladne(colorToPaint, AET, y, wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Interpolowane)
                 {
-                    g.FillInterpolowane(colorToPaint, AET, y, triangleCountedColorsABC);
+                    FillingHelper.FillInterpolowane(colorToPaint, AET, y, triangleCountedColorsABC);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
                 {
-                    g.FillHybrydowe(colorToPaint, AET, y, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, triangleValues);
+                    FillingHelper.FillHybrydowe(colorToPaint, AET, y, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, triangleValues);
                 }
 
                 for (int i = AET.Count - 1; i >= 0; i--)

@@ -13,7 +13,7 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void FillDokladne(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
+        public static void FillDokladne(Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
@@ -42,7 +42,7 @@ namespace Grafika.Helpers
             }
         }
 
-        public static void FillInterpolowane(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, (int, int))[] triangleColorsABC)
+        public static void FillInterpolowane(Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, (int, int))[] triangleColorsABC)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
@@ -53,7 +53,7 @@ namespace Grafika.Helpers
             }
         }
 
-        public static void FillHybrydowe(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, ((Color, (double, double, double)), (int, int))[] triangleValues)
+        public static void FillHybrydowe(Color[,] colorToPaint, List<AETPointer> AET, int y, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, ((Color, (double, double, double)), (int, int))[] triangleValues)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
