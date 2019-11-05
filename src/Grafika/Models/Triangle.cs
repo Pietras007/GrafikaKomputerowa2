@@ -66,48 +66,39 @@ namespace Grafika.Models
             return (aETPointers, GetYminFromAll());
         }
 
-        public (Color, Color, Color) GetColorsABC(Vector N, Vector V, OpcjaWektoraN opcjaWektoraN, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double kd, double ks, int m, Color lightColor)
+        public (Color, (int, int))[] GetColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
-            //List <Vertice> lista = new List<Vertice>();
-            //Color[] colors = new Color[3];
-            //if (wypelnienie == Wypelnienie.Tekstura)
-            //{
-            //    colors[0] = sampleImage[A.X, A.Y];
-            //    colors[1] = sampleImage[B.X, B.Y];
-            //    colors[2] = sampleImage[C.X, C.Y];
-            //}
-            //else
-            //{
-            //    for(int i=0;i< colors.Length; i++)
-            //    {
-            //        colors[i] = backColor;
-            //    }
-            //}
+            (Color, (int, int))[] resultColors = new (Color, (int, int))[3];
+            for(int i=0;i<vertices.Count;i++)
+            {
+                var vertice = vertices[i];
+                int x = vertice.X;
+                int y = vertice.Y;
+                //if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
+                {
+                    Color color = backColor;
+                    if (wypelnienie == Wypelnienie.Tekstura)
+                    {
+                        color = sampleImage[x, y];
+                    }
 
-            //for(int i=0;i< colors.Length; i++)
-            //{
-            //    var c = colors[i];
-            //    if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
-            //    {
-            //        if (i == 0)
-            //        {
-            //            N = VectorHelper.CountVectorN(normalMap[A.X, A.Y]);
-            //        }
-            //        else if(i == 1)
-            //        {
-            //            N = VectorHelper.CountVectorN(normalMap[B.X, B.Y]);
-            //        }
-            //        else
-            //        {
-            //            N = VectorHelper.CountVectorN(normalMap[C.X, C.Y]);
-            //        }
-            //    }
-            //    Vector L = VectorHelper.CountVectorL(x, y, lightSource);
-            //    Vector R = VectorHelper.CreateVectorR(N, L);
-            //    c = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, c, N, L, V, R);
-            //}
+                    (double, double, double) N = (0, 0, 1);
+                    if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
+                    {
+                        N = VectorHelper.CountVectorN(normalMap[x, y]);
+                    }
+
+                    (double, double, double) L = (0, 0, 1);
+                    if (trybPracy == TrybPracy.SwiatloWedrujace)
+                    {
+                        L = VectorHelper.CountVectorL(x, y, lightSource);
+                    }
+                    resultColors[i] = (ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L), (x, y));
+                }
+
+            }
             
-            return (Color.White, Color.White, Color.White);
+            return resultColors;
         }
 
         private int RoundX(int x)

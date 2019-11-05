@@ -48,7 +48,7 @@ namespace Grafika.Extentions
         {
             Stopwatch stopwatch = new Stopwatch();
             
-            var colorToPaint = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
+            var colorToPaint = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
             stopwatch.Start();
             g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
             stopwatch.Stop();
@@ -114,10 +114,6 @@ namespace Grafika.Extentions
             List<AETPointer>[] ET = data.Item1;
             List<AETPointer> AET = new List<AETPointer>();
 
-            //Vector N V
-            Vector N = new Vector(0, 0, 1);
-            Vector V = new Vector(0, 0, 1);
-
             //Random randomKdKsM
             if(randomKdKsM)
             {
@@ -127,17 +123,17 @@ namespace Grafika.Extentions
             }
 
             //GetColors inTriangle
-            (Color, Color, Color) triangleColorsABC = triangle.GetColorsABC(N,V,opcjaWektoraN,wypelnienie,sampleImage,normalMap,backColor,kd,ks,m,lightColor);
+            (Color, (int, int))[] triangleColorsABC = triangle.GetColorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
 
             for (int y = data.Item2; y <= ET.Length - 1; y++)
             {
                 if (rodzajMalowania == RodzajMalowania.Dokladne)
                 {
-                    g.FillDokladne(colorToPaint, AET, y, wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, N, V);
+                    g.FillDokladne(colorToPaint, AET, y, wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Interpolowane)
                 {
-                    g.FillInterpolowane(colorToPaint, AET, y, triangleColorsABC, triangle);
+                    g.FillInterpolowane(colorToPaint, AET, y, triangleColorsABC);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
                 {

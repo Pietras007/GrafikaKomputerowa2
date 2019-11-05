@@ -10,18 +10,15 @@ namespace Grafika.Helpers
 {
     public static class ColorHelper
     {
-        public static Color CalculateColorToPaint(double kd, double ks, int m, Color lightColor, Color color, Vector N, Vector L, Vector V, Vector R)
+        public static Color CalculateColorToPaint(double kd, double ks, int m, Color lightColor, Color color, (double, double, double) N, (double, double, double) L)
         {
-            R = VectorHelper.NormalizeVector(R);
+            (double, double, double) V = (0, 0, 1);
             double cosNL = VectorHelper.CountCosunis(N, L);
+            (double, double, double) R = VectorHelper.NormalizeVector(VectorHelper.CreateVectorR(N, L, cosNL));
             double cosVR = VectorHelper.CountCosunis(V, R);
-            double Ir = kd * ((double)lightColor.R / 255) * ((double)color.R / 255) * cosNL + ks * ((double)lightColor.R / 255) * ((double)color.R / 255) * Math.Pow(cosVR, m);
-            double Ig = kd * ((double)lightColor.G / 255) * ((double)color.G / 255) * cosNL + ks * ((double)lightColor.G / 255) * ((double)color.G / 255) * Math.Pow(cosVR, m);
-            double Ib = kd * ((double)lightColor.B / 255) * ((double)color.B / 255) * cosNL + ks * ((double)lightColor.B / 255) * ((double)color.B / 255) * Math.Pow(cosVR, m);
-            Ir = FillingHelper.Round01(Ir);
-            Ig = FillingHelper.Round01(Ig);
-            Ib = FillingHelper.Round01(Ib);
-
+            double Ir = FillingHelper.Round01(kd * ((double)lightColor.R / 255) * ((double)color.R / 255) * cosNL + ks * ((double)lightColor.R / 255) * ((double)color.R / 255) * Math.Pow(cosVR, m));
+            double Ig = FillingHelper.Round01(kd * ((double)lightColor.G / 255) * ((double)color.G / 255) * cosNL + ks * ((double)lightColor.G / 255) * ((double)color.G / 255) * Math.Pow(cosVR, m));
+            double Ib = FillingHelper.Round01(kd * ((double)lightColor.B / 255) * ((double)color.B / 255) * cosNL + ks * ((double)lightColor.B / 255) * ((double)color.B / 255) * Math.Pow(cosVR, m));
             return Color.FromArgb((int)(Ir * 255), (int)(Ig * 255), (int)(Ib * 255));
         }
     }

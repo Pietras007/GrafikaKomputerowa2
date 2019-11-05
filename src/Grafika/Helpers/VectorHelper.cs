@@ -10,16 +10,14 @@ namespace Grafika.Helpers
 {
     public static class VectorHelper
     {
-        public static Vector CreateVectorR(Vector N, Vector L)
+        public static (double, double, double) CreateVectorR((double, double, double) N, (double, double, double) L, double cosinusNL)
         {
-            //return new Vector(2 * N.X - L.X, 2 * N.Y - L.Y, 2 * N.Z - L.Z);
-            double cosinus = CountCosunis(N, L);
-            return new Vector(2 *cosinus* N.X - L.X, 2 * cosinus * N.Y - L.Y, 2 * cosinus * N.Z - L.Z);
+            return (2 * cosinusNL * N.Item1 - L.Item1, 2 * cosinusNL * N.Item2 - L.Item2, 2 * cosinusNL * N.Item3 - L.Item3);
         }
 
-        public static double CountCosunis(Vector A, Vector B)
+        public static double CountCosunis((double, double, double) A, (double, double, double) B)
         {
-            return A.X * B.X + A.Y * B.Y + A.Z * B.Z;
+            return A.Item1 * B.Item1 + A.Item2 * B.Item2 + A.Item3 * B.Item3;
         }
 
         public static (double, double, double) CountVectorN(Color color)
@@ -30,21 +28,11 @@ namespace Grafika.Helpers
             return NormalizeVector((R, G, B));
         }
 
-        public static Vector CountVectorL(int x, int y, (int, int, int) lightSource)
+        public static (double, double, double) CountVectorL(int x, int y, (int, int, int) lightSource)
         {
-            Vector L = new Vector(lightSource.Item1 - x, lightSource.Item2 - y, lightSource.Item3);
-            return NormalizeVector(L);
-        }
-
-
-
-        public static Vector NormalizeVector(Vector vector)
-        {
-            double length = Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2) + Math.Pow(vector.Z, 2));
-            vector.X /= length;
-            vector.Y /= length;
-            vector.Z /= length;
-            return vector;
+            lightSource.Item1 = lightSource.Item1 - x;
+            lightSource.Item2 = lightSource.Item2 - y;
+            return NormalizeVector(lightSource);
         }
 
         public static (double, double, double) NormalizeVector((double, double, double) vector)

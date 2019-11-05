@@ -13,56 +13,49 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void FillDokladne(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, Vector N, Vector V)
+        public static void FillDokladne(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
                 for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
+                    Color color = backColor;
+                    if (wypelnienie == Wypelnienie.Tekstura)
                     {
-                        Color color = backColor;
-                        if (wypelnienie == Wypelnienie.Tekstura)
-                        {
-                            color = sampleImage[x, y];
-                        }
-
-                        if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
-                        {
-                            var a = VectorHelper.CountVectorN(normalMap[x, y]);
-                            N = new Vector( a.Item1, a.Item2,a.Item3);
-                        }
-                        Vector L = new Vector(0, 0, 1);
-                        if(trybPracy == TrybPracy.SwiatloWedrujace)
-                        {
-                            L = VectorHelper.CountVectorL(x, y, lightSource);
-                        }
-                        Vector R = VectorHelper.CreateVectorR(N, L);
-                        colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L, V, R);
+                        color = sampleImage[x, y];
                     }
+
+                    (double, double, double) N = (0, 0, 1);
+                    if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
+                    {
+                        N = VectorHelper.CountVectorN(normalMap[x, y]);
+                    }
+
+                    (double, double, double) L = (0, 0, 1);
+                    if (trybPracy == TrybPracy.SwiatloWedrujace)
+                    {
+                        L = VectorHelper.CountVectorL(x, y, lightSource);
+                    }
+
+                    colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L);
                 }
             }
         }
 
-        public static void FillInterpolowane(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, Color, Color) triangleColorsABC, Triangle triangle)
+        public static void FillInterpolowane(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, (Color, (int, int))[] triangleColorsABC)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
                 for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    if (x < CONST.CONST.bitmapX && y < CONST.CONST.bitmapY)
-                    {
-                        var A = triangle.A;
-                        var B = triangle.B;
-                        var C = triangle.C;
-                        double alpha = (x - C.X - (C.Y - y) / (C.Y - B.Y) * B.X - (y - C.Y) / (C.Y - B.Y) * C.X) / (A.X + (A.Y - C.Y) / (C.Y - B.Y) * B.X - C.X - (A.Y - C.Y) / (C.Y - B.Y) * C.X);
-                        double beta = alpha * (A.Y - C.Y) / (C.Y - B.Y) + (C.Y - y) / (C.Y - B.Y);
-                        double gamma = 1 - alpha - beta;
-                        int R_ = (int)Round255(alpha * triangleColorsABC.Item1.R + beta * triangleColorsABC.Item2.R + gamma * triangleColorsABC.Item3.R);
-                        int G_ = (int)Round255(alpha * triangleColorsABC.Item1.G + beta * triangleColorsABC.Item2.G + gamma * triangleColorsABC.Item3.G);
-                        int B_ = (int)Round255(alpha * triangleColorsABC.Item1.B + beta * triangleColorsABC.Item2.B + gamma * triangleColorsABC.Item3.B);
-                        colorToPaint[x, y] = Color.FromArgb(R_, G_, B_);
-                    }
+                    double ABC = TriangleHelper.TriangleArea(triangleColorsABC[0].Item2, triangleColorsABC[1].Item2, triangleColorsABC[2].Item2);
+                    double alpha = TriangleHelper.TriangleArea((x, y), triangleColorsABC[1].Item2, triangleColorsABC[2].Item2) / ABC;
+                    double beta = TriangleHelper.TriangleArea(triangleColorsABC[0].Item2, (x, y), triangleColorsABC[2].Item2) / ABC;
+                    double gamma = TriangleHelper.TriangleArea(triangleColorsABC[0].Item2, triangleColorsABC[1].Item2, (x, y)) / ABC;
+                    int R_ = (int)Round255(alpha * triangleColorsABC[0].Item1.R + beta * triangleColorsABC[1].Item1.R + gamma * triangleColorsABC[2].Item1.R);
+                    int G_ = (int)Round255(alpha * triangleColorsABC[0].Item1.G + beta * triangleColorsABC[1].Item1.G + gamma * triangleColorsABC[2].Item1.G);
+                    int B_ = (int)Round255(alpha * triangleColorsABC[0].Item1.B + beta * triangleColorsABC[1].Item1.B + gamma * triangleColorsABC[2].Item1.B);
+                    colorToPaint[x, y] = Color.FromArgb(R_, G_, B_);
                 }
             }
         }
@@ -93,11 +86,11 @@ namespace Grafika.Helpers
 
         public static double Round01(double x)
         {
-            if(x > 1)
+            if (x > 1)
             {
                 return 1;
             }
-            else if(x < 0)
+            else if (x < 0)
             {
                 return 0;
             }
