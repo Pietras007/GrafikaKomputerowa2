@@ -50,7 +50,6 @@
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -298,16 +297,15 @@
             this.panel2.Controls.Add(this.radioButton6);
             this.panel2.Controls.Add(this.radioButton5);
             this.panel2.Controls.Add(this.radioButton4);
-            this.panel2.Controls.Add(this.radioButton3);
-            this.panel2.Location = new System.Drawing.Point(0, 265);
+            this.panel2.Location = new System.Drawing.Point(0, 283);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 93);
+            this.panel2.Size = new System.Drawing.Size(200, 75);
             this.panel2.TabIndex = 31;
             // 
             // radioButton6
             // 
             this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(57, 72);
+            this.radioButton6.Location = new System.Drawing.Point(57, 49);
             this.radioButton6.Name = "radioButton6";
             this.radioButton6.Size = new System.Drawing.Size(78, 17);
             this.radioButton6.TabIndex = 28;
@@ -319,7 +317,7 @@
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(57, 49);
+            this.radioButton5.Location = new System.Drawing.Point(57, 26);
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(92, 17);
             this.radioButton5.TabIndex = 27;
@@ -331,7 +329,7 @@
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(57, 26);
+            this.radioButton4.Location = new System.Drawing.Point(56, 3);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(73, 17);
             this.radioButton4.TabIndex = 26;
@@ -339,18 +337,6 @@
             this.radioButton4.Text = "Dokładne";
             this.radioButton4.UseVisualStyleBackColor = true;
             this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(57, 3);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(77, 17);
-            this.radioButton3.TabIndex = 25;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Bez Efektu";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // label11
             // 
@@ -508,7 +494,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(28, 235);
+            this.label2.Location = new System.Drawing.Point(27, 253);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 27);
             this.label2.TabIndex = 8;
@@ -610,7 +596,6 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.ColorDialog colorDialog2;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton radioButton5;
         private System.Windows.Forms.RadioButton radioButton6;

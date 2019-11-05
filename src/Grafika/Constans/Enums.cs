@@ -20,7 +20,6 @@ namespace Grafika.CONST
 
     public enum RodzajMalowania
     {
-        Brak,
         Dokladne,
         Interpolowane,
         Hybrydowe

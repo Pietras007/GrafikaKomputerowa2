@@ -18,7 +18,6 @@ namespace Grafika
     {
         public Picture picture = new Picture();
         bool randomKdKsM = false;
-        Bitmap sampleImage;
         Color backColor;
         Color lightColor;
         Color[,] sampleImageColor;
@@ -47,21 +46,14 @@ namespace Grafika
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            if (rodzajMalowania == RodzajMalowania.Brak)
-            {
-                g.PaintBrak(picture, wypelnienie, sampleImageColor, backColor, trybPracy, ks, kd, m, triangleWeb);
-            }
-            else
-            {
-                g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb);
-            }
+            g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             isMoving = false;
             random = new Random();
-            sampleImage = new Bitmap("picture.jpg");
+            Bitmap sampleImage = new Bitmap("picture.jpg");
             Bitmap normalMap = new Bitmap("normal.jpg");
             sampleImageColor = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
             normalMapColor = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
@@ -83,7 +75,7 @@ namespace Grafika
             sizeY = CONST.CONST.trianglesY;
             radioButton7.Checked = true;
             radioButton9.Checked = true;
-            radioButton3.Checked = true;
+            radioButton4.Checked = true;
             radioButton1.Checked = true;
             //checkbox2
             kd = 0.75;
@@ -189,11 +181,6 @@ namespace Grafika
             colorDialog2.ShowDialog();
             textBox4.BackColor = colorDialog2.Color;
             lightColor = textBox4.BackColor;
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            rodzajMalowania = RodzajMalowania.Brak;
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
