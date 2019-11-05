@@ -13,6 +13,6 @@ namespace Grafika.CONST
         public const int bitmapY = 576;
         public const int trianglesX = 4;
         public const int trianglesY = 3;
-        public const int border = 3;
+        public const int border = 20;
     }
 }

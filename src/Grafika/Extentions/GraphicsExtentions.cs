@@ -75,8 +75,6 @@ namespace Grafika.Extentions
 
         public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM, bool triangleWeb)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            
             var colorToPaint = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
             g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
 
@@ -105,10 +103,20 @@ namespace Grafika.Extentions
                             }
                             else
                             {
-                                currentLine[x] = sampleImage[x / 4, y].B;
-                                currentLine[x + 1] = sampleImage[x / 4, y].G;
-                                currentLine[x + 2] = sampleImage[x / 4, y].R;
-                                currentLine[x + 3] = sampleImage[x / 4, y].A;
+                                if (wypelnienie == Wypelnienie.Tekstura)
+                                {
+                                    currentLine[x] = sampleImage[x / 4, y].B;
+                                    currentLine[x + 1] = sampleImage[x / 4, y].G;
+                                    currentLine[x + 2] = sampleImage[x / 4, y].R;
+                                    currentLine[x + 3] = sampleImage[x / 4, y].A;
+                                }
+                                else
+                                {
+                                    currentLine[x] = backColor.B;
+                                    currentLine[x + 1] = backColor.G;
+                                    currentLine[x + 2] = backColor.R;
+                                    currentLine[x + 3] = backColor.A;
+                                }
                             }
                         }
                     });
@@ -117,14 +125,11 @@ namespace Grafika.Extentions
 
                 g.DrawImage(processedBitmap, 0, 0);
             }
+
             if (triangleWeb)
             {
                 using (Pen blackPen = new Pen(Color.Black))
                 {
-                    //Parallel.ForEach(picture.Triangles, (triangle) =>
-                    //{
-                    //    g.PaintTriangleLines(blackPen, triangle);
-                    //});
                     foreach (var triangle in picture.Triangles)
                     {
                         g.PaintTriangleLines(blackPen, triangle);
@@ -141,10 +146,7 @@ namespace Grafika.Extentions
                 Triangle triangle = picture.Triangles[i];
                 g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
             });
-            //Parallel.ForEach(picture.Triangles, (triangle) =>
-            //{
-            //    g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
-            //});
+
             //foreach (var triangle in picture.Triangles)
             //{
             //    g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
