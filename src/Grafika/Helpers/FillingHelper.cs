@@ -53,22 +53,20 @@ namespace Grafika.Helpers
             }
         }
 
-        public static void FillHybrydowe(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (Color, (int, int))[] triangleJustColor, ((double, double, double), (int, int))[] triangleVectorABC)
+        public static void FillHybrydowe(this Graphics g, Color[,] colorToPaint, List<AETPointer> AET, int y, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, ((Color, (double, double, double)), (int, int))[] triangleValues)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
                 for (int x = (int)Math.Round(AET[i].X) + 1; x <= Math.Round(AET[i + 1].X); x++)
                 {
-                    Color color = TriangleHelper.CountBarycentricCoordinateSystemColor(triangleJustColor, x, y);
-                    (double, double, double) N = VectorHelper.NormalizeVector(TriangleHelper.CountBarycentricCoordinateSystemVector(triangleVectorABC, x, y));
-
+                    (Color, (double, double, double)) colorAndN = TriangleHelper.CountBarycentricCoordinateSystemColorAndVector(triangleValues, x, y);
                     (double, double, double) L = (0, 0, 1);
                     if (trybPracy == TrybPracy.SwiatloWedrujace)
                     {
                         L = VectorHelper.CountVectorL(x, y, lightSource);
                     }
 
-                    colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L);
+                    colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, colorAndN.Item1, colorAndN.Item2, L);
                 }
             }
         }

@@ -21,16 +21,20 @@ namespace Grafika.Helpers
             return Color.FromArgb(R_, G_, B_);
         }
 
-        public static (double, double, double) CountBarycentricCoordinateSystemVector(((double, double, double), (int, int))[] triangleVectorABC, int x, int y)
+        public static (Color,(double, double, double)) CountBarycentricCoordinateSystemColorAndVector(((Color, (double, double, double)), (int, int))[] triangleColorAndVectorABC, int x, int y)
         {
-            double ABC = TriangleArea(triangleVectorABC[0].Item2, triangleVectorABC[1].Item2, triangleVectorABC[2].Item2);
-            double alpha = TriangleArea((x, y), triangleVectorABC[1].Item2, triangleVectorABC[2].Item2) / ABC;
-            double beta = TriangleArea(triangleVectorABC[0].Item2, (x, y), triangleVectorABC[2].Item2) / ABC;
-            double gamma = TriangleArea(triangleVectorABC[0].Item2, triangleVectorABC[1].Item2, (x, y)) / ABC;
-            double X = alpha * triangleVectorABC[0].Item1.Item1 + beta * triangleVectorABC[1].Item1.Item1 + gamma * triangleVectorABC[2].Item1.Item1;
-            double Y = alpha * triangleVectorABC[0].Item1.Item2 + beta * triangleVectorABC[1].Item1.Item2 + gamma * triangleVectorABC[2].Item1.Item2;
-            double Z = alpha * triangleVectorABC[0].Item1.Item3 + beta * triangleVectorABC[1].Item1.Item3 + gamma * triangleVectorABC[2].Item1.Item3;
-            return (X, Y, Z);
+            double ABC = TriangleArea(triangleColorAndVectorABC[0].Item2, triangleColorAndVectorABC[1].Item2, triangleColorAndVectorABC[2].Item2);
+            double alpha = TriangleArea((x, y), triangleColorAndVectorABC[1].Item2, triangleColorAndVectorABC[2].Item2) / ABC;
+            double beta = TriangleArea(triangleColorAndVectorABC[0].Item2, (x, y), triangleColorAndVectorABC[2].Item2) / ABC;
+            double gamma = TriangleArea(triangleColorAndVectorABC[0].Item2, triangleColorAndVectorABC[1].Item2, (x, y)) / ABC;
+            int R_ = (int)Round255(alpha * triangleColorAndVectorABC[0].Item1.Item1.R + beta * triangleColorAndVectorABC[1].Item1.Item1.R + gamma * triangleColorAndVectorABC[2].Item1.Item1.R);
+            int G_ = (int)Round255(alpha * triangleColorAndVectorABC[0].Item1.Item1.G + beta * triangleColorAndVectorABC[1].Item1.Item1.G + gamma * triangleColorAndVectorABC[2].Item1.Item1.G);
+            int B_ = (int)Round255(alpha * triangleColorAndVectorABC[0].Item1.Item1.B + beta * triangleColorAndVectorABC[1].Item1.Item1.B + gamma * triangleColorAndVectorABC[2].Item1.Item1.B);
+
+            double X = alpha * triangleColorAndVectorABC[0].Item1.Item2.Item1 + beta * triangleColorAndVectorABC[1].Item1.Item2.Item1 + gamma * triangleColorAndVectorABC[2].Item1.Item2.Item1;
+            double Y = alpha * triangleColorAndVectorABC[0].Item1.Item2.Item2 + beta * triangleColorAndVectorABC[1].Item1.Item2.Item2 + gamma * triangleColorAndVectorABC[2].Item1.Item2.Item2;
+            double Z = alpha * triangleColorAndVectorABC[0].Item1.Item2.Item3 + beta * triangleColorAndVectorABC[1].Item1.Item2.Item3 + gamma * triangleColorAndVectorABC[2].Item1.Item2.Item3;
+            return (Color.FromArgb(R_, G_, B_), VectorHelper.NormalizeVector((X, Y, Z)));
         }
 
         public static double TriangleArea((int, int) A, (int, int) B, (int, int) C)

@@ -34,6 +34,7 @@ namespace Grafika
         Vertice clickedPoint;
         double ks;
         double kd;
+        bool triangleWeb;
         int m;
         (int, int, int) lightSource;
         double t = 1;
@@ -48,11 +49,11 @@ namespace Grafika
             Graphics g = e.Graphics;
             if (rodzajMalowania == RodzajMalowania.Brak)
             {
-                g.PaintBrak(picture, wypelnienie, sampleImage, backColor, trybPracy, ks, kd, m);
+                g.PaintBrak(picture, wypelnienie, sampleImageColor, backColor, trybPracy, ks, kd, m, triangleWeb);
             }
             else
             {
-                g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
+                g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb);
             }
         }
 
@@ -92,6 +93,7 @@ namespace Grafika
             trackBar2.Value = (int)(ks * 100);
             trackBar3.Value = m;
             //   
+            triangleWeb = true;
             lightSource = (CONST.CONST.bitmapX / 2, CONST.CONST.bitmapX / 2, 50);
             picture.InitializePicture(sizeX, sizeY);
             MyTimer.Interval = (20);
@@ -260,6 +262,18 @@ namespace Grafika
                 trackBar1.Enabled = true;
                 trackBar2.Enabled = true;
                 trackBar3.Enabled = true;
+            }
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked)
+            {
+                triangleWeb = false;
+            }
+            else
+            {
+                triangleWeb = true;
             }
         }
     }

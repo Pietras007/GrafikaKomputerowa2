@@ -99,9 +99,9 @@ namespace Grafika.Models
             return resultColors;
         }
 
-        public (Color, (int, int))[] GetColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
+        public ((Color, (double, double, double)), (int, int))[] GetColorsAndVectorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
         {
-            (Color, (int, int))[] resultColors = new (Color, (int, int))[3];
+            ((Color, (double, double, double)), (int, int))[] resultColorsAndVectors = new ((Color, (double, double, double)), (int, int))[3];
             for (int i = 0; i < vertices.Count; i++)
             {
                 var vertice = vertices[i];
@@ -112,30 +112,16 @@ namespace Grafika.Models
                 {
                     color = sampleImage[x, y];
                 }
-                resultColors[i] = (color, (x, y));
-            }
-
-            return resultColors;
-        }
-
-        public ((double, double, double), (int, int))[] GetVectorsNABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
-        {
-            ((double, double, double), (int, int))[] resultVectors = new ((double, double, double), (int, int))[3];
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                var vertice = vertices[i];
-                int x = vertice.X;
-                int y = vertice.Y;
 
                 (double, double, double) N = (0, 0, 1);
                 if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
                 {
                     N = VectorHelper.CountVectorN(normalMap[x, y]);
                 }
-                resultVectors[i] = (N, (x, y));
+                resultColorsAndVectors[i] = ((color, N), (x, y));
             }
 
-            return resultVectors;
+            return resultColorsAndVectors;
         }
 
         public int GetYmaxFromAll()
