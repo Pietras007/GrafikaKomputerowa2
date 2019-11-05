@@ -25,10 +25,18 @@ namespace Grafika.Helpers
         public static Vector CountVectorN(Color color)
         {
             double R = (double)(color.R - 127) / 127;
-            double G = (double)(color.G - 127) / 127;
+            double G = -(double)(color.G - 127) / 127;
             double B = (double)(color.B) / 255;
             return NormalizeVector(new Vector(R, G, B));
         }
+
+        public static Vector CountVectorL(int x, int y, (int, int, int) lightSource)
+        {
+            Vector L = new Vector(lightSource.Item1 - x, lightSource.Item2 - y, lightSource.Item3);
+            return NormalizeVector(L);
+        }
+
+
 
         public static Vector NormalizeVector(Vector vector)
         {

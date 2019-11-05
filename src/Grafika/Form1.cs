@@ -36,7 +36,7 @@ namespace Grafika
         double kd;
         int m;
         (int, int, int) lightSource;
-        double move = 0.01;
+        double t = 1;
         Random random;
         public Form1()
         {
@@ -92,7 +92,7 @@ namespace Grafika
             trackBar2.Value = (int)(ks * 100);
             trackBar3.Value = m;
             //   
-            lightSource = (CONST.CONST.bitmapX / 2, CONST.CONST.bitmapX / 2, 20);
+            lightSource = (CONST.CONST.bitmapX / 2, CONST.CONST.bitmapX / 2, 50);
             picture.InitializePicture(sizeX, sizeY);
             MyTimer.Interval = (20);
             MyTimer.Tick += new EventHandler(TimerFunction);
@@ -100,12 +100,10 @@ namespace Grafika
         }
         private void TimerFunction(object sender, EventArgs e)
         {
-
-
-            //vectorL.X = _x;
-            //vectorL.Y = _y;
-            //vectorL.Z = _z;
-            //vectorL = VectorHelper.NormalizeVector(vectorL);
+            double newX = CONST.CONST.bitmapX / 2 * Math.Sin(t + 5 * Math.PI / 2) + CONST.CONST.bitmapX / 2;
+            double newY = CONST.CONST.bitmapY / 2 * Math.Sin(4 * t) + CONST.CONST.bitmapY / 2;
+            lightSource = ((int)newX, (int)newY, 50);
+            t += 0.01;
             pictureBox1.Invalidate();
         }
 

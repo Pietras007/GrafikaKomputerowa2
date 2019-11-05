@@ -66,44 +66,48 @@ namespace Grafika.Models
             return (aETPointers, GetYminFromAll());
         }
 
-        public (Color, Color, Color) GetColorsABC(Vector N, Vector L, Vector V, OpcjaWektoraN opcjaWektoraN, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double kd, double ks, int m, Color lightColor)
+        public (Color, Color, Color) GetColorsABC(Vector N, Vector V, OpcjaWektoraN opcjaWektoraN, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double kd, double ks, int m, Color lightColor)
         {
-            List<Color> colors = new List<Color>();
-            if (wypelnienie == Wypelnienie.Tekstura)
-            {
-                colors.Add(sampleImage[RoundX(A.X), RoundY(A.Y)]);
-                colors.Add(sampleImage[RoundX(B.X), RoundY(B.Y)]);
-                colors.Add(sampleImage[RoundX(C.X), RoundY(C.Y)]);
-            }
-            else
-            {
-                colors.Add(backColor);
-                colors.Add(backColor);
-                colors.Add(backColor);
-            }
-            for(int i=0;i<colors.Count;i++)
-            {
-                var c = colors[i];
-                if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
-                {
-                    if (i == 0)
-                    {
-                        N = VectorHelper.CountVectorN(normalMap[A.X, A.Y]);
-                    }
-                    else if(i == 1)
-                    {
-                        N = VectorHelper.CountVectorN(normalMap[B.X, B.Y]);
-                    }
-                    else
-                    {
-                        N = VectorHelper.CountVectorN(normalMap[C.X, C.Y]);
-                    }
-                }
-                Vector R = VectorHelper.CreateVectorR(N, L);
-                c = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, c, N, L, V, R);
-            }
+            //List <Vertice> lista = new List<Vertice>();
+            //Color[] colors = new Color[3];
+            //if (wypelnienie == Wypelnienie.Tekstura)
+            //{
+            //    colors[0] = sampleImage[A.X, A.Y];
+            //    colors[1] = sampleImage[B.X, B.Y];
+            //    colors[2] = sampleImage[C.X, C.Y];
+            //}
+            //else
+            //{
+            //    for(int i=0;i< colors.Length; i++)
+            //    {
+            //        colors[i] = backColor;
+            //    }
+            //}
+
+            //for(int i=0;i< colors.Length; i++)
+            //{
+            //    var c = colors[i];
+            //    if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
+            //    {
+            //        if (i == 0)
+            //        {
+            //            N = VectorHelper.CountVectorN(normalMap[A.X, A.Y]);
+            //        }
+            //        else if(i == 1)
+            //        {
+            //            N = VectorHelper.CountVectorN(normalMap[B.X, B.Y]);
+            //        }
+            //        else
+            //        {
+            //            N = VectorHelper.CountVectorN(normalMap[C.X, C.Y]);
+            //        }
+            //    }
+            //    Vector L = VectorHelper.CountVectorL(x, y, lightSource);
+            //    Vector R = VectorHelper.CreateVectorR(N, L);
+            //    c = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, c, N, L, V, R);
+            //}
             
-            return (colors[0], colors[1], colors[2]);
+            return (Color.White, Color.White, Color.White);
         }
 
         private int RoundX(int x)

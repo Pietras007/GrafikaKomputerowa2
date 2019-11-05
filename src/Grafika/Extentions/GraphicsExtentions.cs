@@ -46,9 +46,13 @@ namespace Grafika.Extentions
 
         public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            
             var colorToPaint = new Color[CONST.CONST.bitmapX, CONST.CONST.bitmapY];
+            stopwatch.Start();
             g.PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
-
+            stopwatch.Stop();
+            int t = 0;
 
             using (Bitmap processedBitmap = new Bitmap(CONST.CONST.bitmapX, CONST.CONST.bitmapY))
             {
@@ -84,6 +88,7 @@ namespace Grafika.Extentions
                     g.PaintTriangleLines(blackPen, triangle);
                 }
             }
+
         }
 
         public static void PaintHandler(this Graphics g, Color[,] colorToPaint, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
@@ -94,7 +99,7 @@ namespace Grafika.Extentions
             });
             //foreach (var triangle in picture.Triangles)
             //{
-            //    g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, vectorL, randomKdKsM);
+            //    g.PaintTriangle(colorToPaint, triangle, picture, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
             //}
         }
 
@@ -108,13 +113,6 @@ namespace Grafika.Extentions
             Vector N = new Vector(0, 0, 1);
             Vector V = new Vector(0, 0, 1);
 
-            //Counting data for triangle
-            //(Color, Color, Color) triangleColorsABC = (Color.White, Color.White, Color.White);
-            //if (rodzajMalowania == RodzajMalowania.Interpolowane)
-            //{
-            //    triangleColorsABC = triangle.GetColorsABC(N, L, V, opcjaWektoraN, wypelnienie, sampleImage, normalMap, backColor, kd, ks, m, lightColor);
-            //}
-
             //Random randomKdKsM
             if(randomKdKsM)
             {
@@ -122,6 +120,9 @@ namespace Grafika.Extentions
                 kd = triangle.KD;
                 m = triangle.M;
             }
+
+            //GetColors inTriangle
+            (Color, Color, Color) triangleColorsABC = triangle.GetColorsABC(N,V,opcjaWektoraN,wypelnienie,sampleImage,normalMap,backColor,kd,ks,m,lightColor);
 
             for (int y = data.Item2; y <= ET.Length - 1; y++)
             {
@@ -131,7 +132,7 @@ namespace Grafika.Extentions
                 }
                 else if(rodzajMalowania == RodzajMalowania.Interpolowane)
                 {
-                    //g.FillInterpolowane(colorToPaint, AET, y, triangleColorsABC, triangle);
+                    g.FillInterpolowane(colorToPaint, AET, y, triangleColorsABC, triangle);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
                 {

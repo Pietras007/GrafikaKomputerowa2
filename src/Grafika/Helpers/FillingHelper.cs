@@ -34,8 +34,7 @@ namespace Grafika.Helpers
                         Vector L = new Vector(0, 0, 1);
                         if(trybPracy == TrybPracy.SwiatloWedrujace)
                         {
-                            L = new Vector(lightSource.Item1 - x, y - lightSource.Item2 - y, lightSource.Item3);
-                            L = VectorHelper.NormalizeVector(L);
+                            L = VectorHelper.CountVectorL(x, y, lightSource);
                         }
                         Vector R = VectorHelper.CreateVectorR(N, L);
                         colorToPaint[x, y] = ColorHelper.CalculateColorToPaint(kd, ks, m, lightColor, color, N, L, V, R);
