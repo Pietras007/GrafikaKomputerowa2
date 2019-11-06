@@ -22,10 +22,10 @@ namespace Grafika.Extentions
             g.DrawLine(pen, triangle.A.X, triangle.A.Y, triangle.C.X, triangle.C.Y);
         }
 
-        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM, bool triangleWeb)
+        public static void Paint(this Graphics g, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM, bool triangleWeb, (int, int) mouse)
         {
             var colorToPaint = new Color[CONST.CONST.bitmapX + 1, CONST.CONST.bitmapY + 1];
-            PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
+            PaintHandler(colorToPaint, picture, wypelnienie, sampleImage, normalMap, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, mouse);
 
             using (Bitmap processedBitmap = new Bitmap(CONST.CONST.bitmapX, CONST.CONST.bitmapY))
             {
@@ -88,12 +88,12 @@ namespace Grafika.Extentions
 
         }
 
-        public static void PaintHandler(Color[,] colorToPaint, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
+        public static void PaintHandler(Color[,] colorToPaint, Picture picture, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor2, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM, (int, int) mouse)
         {
             Parallel.For(0, picture.Triangles.Count, (i) =>
             {
                 Triangle triangle = picture.Triangles[i];
-                PaintTriangle(colorToPaint, triangle, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM);
+                PaintTriangle(colorToPaint, triangle, wypelnienie, sampleImage, normalMap, backColor2, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, mouse);
             });
 
             //foreach (var triangle in picture.Triangles)
@@ -102,7 +102,7 @@ namespace Grafika.Extentions
             //}
         }
 
-        public static void PaintTriangle(Color[,] colorToPaint, Triangle triangle, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM)
+        public static void PaintTriangle(Color[,] colorToPaint, Triangle triangle, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, TrybPracy trybPracy, double ks, double kd, int m, RodzajMalowania rodzajMalowania, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, bool randomKdKsM, (int, int) mouse)
         {
             var data = triangle.GetETTable();
             List<AETPointer>[] ET = data.Item1;
@@ -121,18 +121,18 @@ namespace Grafika.Extentions
             ((Color, (double, double, double)), (int, int))[] triangleValues = null;
             if (rodzajMalowania == RodzajMalowania.Interpolowane)
             {
-                triangleCountedColorsABC = triangle.CountColorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+                triangleCountedColorsABC = triangle.CountColorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, mouse);
             }
             else if(rodzajMalowania == RodzajMalowania.Hybrydowe)
             {
-                triangleValues = triangle.GetColorsAndVectorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+                triangleValues = triangle.GetColorsAndVectorsABC(wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, mouse);
             }
 
             for (int y = data.Item2; y <= ET.Length - 1; y++)
             {
                 if (rodzajMalowania == RodzajMalowania.Dokladne)
                 {
-                    FillingHelper.FillDokladne(colorToPaint, AET, y, wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy);
+                    FillingHelper.FillDokladne(colorToPaint, AET, y, wypelnienie, sampleImage, normalMap, backColor, ks, kd, m, lightColor, opcjaWektoraN, lightSource, trybPracy, mouse);
                 }
                 else if(rodzajMalowania == RodzajMalowania.Interpolowane)
                 {

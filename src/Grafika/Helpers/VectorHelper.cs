@@ -28,6 +28,14 @@ namespace Grafika.Helpers
             return NormalizeVector((R, G, B));
         }
 
+        public static (double, double, double) CountVectorNBabelek(Color color)
+        {
+            double R = (double)(color.R - 127) / 127;
+            double G = -(double)(color.G - 127) / 127;
+            double B = (double)(color.B) / 255;
+            return NormalizeVector((R, G, B));
+        }
+
         public static (double, double, double) CountVectorL(int x, int y, (int, int, int) lightSource)
         {
             lightSource.Item1 = lightSource.Item1 - x;

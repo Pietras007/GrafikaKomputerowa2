@@ -59,6 +59,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Helpers\DistanceHelper.cs" />
     <Compile Include="Helpers\FigureHelper.cs" />
     <Compile Include="Helpers\FillingHelper.cs" />
     <Compile Include="Helpers\TriangleHelper.cs" />

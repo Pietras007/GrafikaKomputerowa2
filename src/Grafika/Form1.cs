@@ -40,6 +40,7 @@ namespace Grafika
         int zHeight;
         int z = 1;
         Random random;
+        (int, int) mouse = (100, 100);
         public Form1()
         {
             InitializeComponent();
@@ -48,7 +49,7 @@ namespace Grafika
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb);
+            g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb, mouse);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -133,6 +134,13 @@ namespace Grafika
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
+            if (opcjaWektoraN == OpcjaWektoraN.Babelek)
+            {
+                if (e.X > 0 && e.Y > 0 && e.X < CONST.CONST.bitmapX && e.Y < CONST.CONST.bitmapY)
+                {
+                    mouse = (e.X, e.Y);
+                }
+            }
             if (checkBox1.Checked)
             {
                 if (isMoving)
@@ -274,6 +282,11 @@ namespace Grafika
             {
                 triangleWeb = true;
             }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            opcjaWektoraN = OpcjaWektoraN.Babelek;
         }
     }
 }

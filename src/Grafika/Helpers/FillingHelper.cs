@@ -13,7 +13,7 @@ namespace Grafika.Helpers
 {
     public static class FillingHelper
     {
-        public static void FillDokladne(Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
+        public static void FillDokladne(Color[,] colorToPaint, List<AETPointer> AET, int y, Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse)
         {
             for (int i = 0; i < AET.Count; i += 2)
             {
@@ -29,6 +29,15 @@ namespace Grafika.Helpers
                     if (opcjaWektoraN == OpcjaWektoraN.Tekstura)
                     {
                         N = VectorHelper.CountVectorN(normalMap[x, y]);
+                    }
+                    else if(opcjaWektoraN == OpcjaWektoraN.Babelek)
+                    {
+                        double distance = DistanceHelper.Distance((x, y), mouse);
+                        if (distance < CONST.CONST.radial)
+                        {
+                            double h = DistanceHelper.HeightOfN(distance);
+                            N = VectorHelper.NormalizeVector((x - mouse.Item1, y - mouse.Item2, h));
+                        }
                     }
 
                     (double, double, double) L = (0, 0, 1);

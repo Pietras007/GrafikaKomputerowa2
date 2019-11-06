@@ -14,5 +14,6 @@ namespace Grafika.CONST
         public const int trianglesX = 4;
         public const int trianglesY = 3;
         public const int border = 20;
+        public const int radial = 100;
     }
 }

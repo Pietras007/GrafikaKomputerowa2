@@ -67,7 +67,7 @@ namespace Grafika.Models
             return (aETPointers, GetYminFromAll());
         }
 
-        public (Color, (int, int))[] CountColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
+        public (Color, (int, int))[] CountColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse)
         {
             (Color, (int, int))[] resultColors = new (Color, (int, int))[3];
             for (int i = 0; i < vertices.Count; i++)
@@ -86,6 +86,15 @@ namespace Grafika.Models
                 {
                     N = VectorHelper.CountVectorN(normalMap[x, y]);
                 }
+                else if (opcjaWektoraN == OpcjaWektoraN.Babelek)
+                {
+                    double distance = DistanceHelper.Distance((x, y), mouse);
+                    if (distance < CONST.CONST.radial)
+                    {
+                        double h = DistanceHelper.HeightOfN(distance);
+                        N = VectorHelper.NormalizeVector((x - mouse.Item1, y - mouse.Item2, h));
+                    }
+                }
 
                 (double, double, double) L = (0, 0, 1);
                 if (trybPracy == TrybPracy.SwiatloWedrujace)
@@ -99,7 +108,7 @@ namespace Grafika.Models
             return resultColors;
         }
 
-        public ((Color, (double, double, double)), (int, int))[] GetColorsAndVectorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy)
+        public ((Color, (double, double, double)), (int, int))[] GetColorsAndVectorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse)
         {
             ((Color, (double, double, double)), (int, int))[] resultColorsAndVectors = new ((Color, (double, double, double)), (int, int))[3];
             for (int i = 0; i < vertices.Count; i++)
@@ -118,6 +127,16 @@ namespace Grafika.Models
                 {
                     N = VectorHelper.CountVectorN(normalMap[x, y]);
                 }
+                else if (opcjaWektoraN == OpcjaWektoraN.Babelek)
+                {
+                    double distance = DistanceHelper.Distance((x, y), mouse);
+                    if (distance < CONST.CONST.radial)
+                    {
+                        double h = DistanceHelper.HeightOfN(distance);
+                        N = VectorHelper.NormalizeVector((x - mouse.Item1, y - mouse.Item2, h));
+                    }
+                }
+
                 resultColorsAndVectors[i] = ((color, N), (x, y));
             }
 

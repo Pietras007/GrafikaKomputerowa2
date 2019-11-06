@@ -28,6 +28,7 @@ namespace Grafika.CONST
     public enum OpcjaWektoraN
     {
         Staly,
-        Tekstura
+        Tekstura,
+        Babelek
     }
 }

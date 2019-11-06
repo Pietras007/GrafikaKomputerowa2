@@ -73,6 +73,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.colorDialog2 = new System.Windows.Forms.ColorDialog();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -189,7 +190,7 @@
             // 
             this.panel5.Controls.Add(this.radioButton10);
             this.panel5.Controls.Add(this.radioButton9);
-            this.panel5.Location = new System.Drawing.Point(12, 155);
+            this.panel5.Location = new System.Drawing.Point(12, 143);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(188, 54);
             this.panel5.TabIndex = 35;
@@ -220,11 +221,12 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.radioButton3);
             this.panel3.Controls.Add(this.radioButton1);
             this.panel3.Controls.Add(this.radioButton2);
-            this.panel3.Location = new System.Drawing.Point(3, 375);
+            this.panel3.Location = new System.Drawing.Point(3, 363);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(194, 45);
+            this.panel3.Size = new System.Drawing.Size(194, 66);
             this.panel3.TabIndex = 32;
             // 
             // radioButton1
@@ -264,7 +266,7 @@
             // 
             this.panel4.Controls.Add(this.radioButton8);
             this.panel4.Controls.Add(this.radioButton7);
-            this.panel4.Location = new System.Drawing.Point(3, 65);
+            this.panel4.Location = new System.Drawing.Point(0, 65);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(200, 45);
             this.panel4.TabIndex = 34;
@@ -308,7 +310,7 @@
             this.panel2.Controls.Add(this.radioButton6);
             this.panel2.Controls.Add(this.radioButton5);
             this.panel2.Controls.Add(this.radioButton4);
-            this.panel2.Location = new System.Drawing.Point(0, 283);
+            this.panel2.Location = new System.Drawing.Point(0, 259);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(200, 75);
             this.panel2.TabIndex = 31;
@@ -352,7 +354,7 @@
             // label11
             // 
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(68, 361);
+            this.label11.Location = new System.Drawing.Point(69, 337);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(100, 23);
             this.label11.TabIndex = 28;
@@ -387,7 +389,7 @@
             // textBox3
             // 
             this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(169, 212);
+            this.textBox3.Location = new System.Drawing.Point(169, 203);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(20, 20);
@@ -458,18 +460,18 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(28, 507);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(21, 13);
+            this.label5.Size = new System.Drawing.Size(22, 13);
             this.label5.TabIndex = 16;
-            this.label5.Text = "ks:";
+            this.label5.Text = "kd:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(28, 469);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(22, 13);
+            this.label4.Size = new System.Drawing.Size(21, 13);
             this.label4.TabIndex = 15;
-            this.label4.Text = "kd:";
+            this.label4.Text = "ks:";
             // 
             // trackBar3
             // 
@@ -505,7 +507,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(27, 253);
+            this.label2.Location = new System.Drawing.Point(25, 229);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 27);
             this.label2.TabIndex = 8;
@@ -517,7 +519,7 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(28, 125);
+            this.label1.Location = new System.Drawing.Point(28, 113);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(147, 27);
             this.label1.TabIndex = 7;
@@ -526,13 +528,25 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(68, 210);
+            this.button2.Location = new System.Drawing.Point(68, 203);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(100, 23);
             this.button2.TabIndex = 5;
             this.button2.Text = "Wybierz kolor";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(53, 48);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(64, 17);
+            this.radioButton3.TabIndex = 31;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Bąbelek";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // Form1
             // 
@@ -613,6 +627,7 @@
         private System.Windows.Forms.RadioButton radioButton9;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.RadioButton radioButton3;
     }
 }
 
