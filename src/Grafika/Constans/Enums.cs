@@ -29,6 +29,7 @@ namespace Grafika.CONST
     {
         Staly,
         Tekstura,
-        Babelek
+        Babelek,
+        Fala
     }
 }

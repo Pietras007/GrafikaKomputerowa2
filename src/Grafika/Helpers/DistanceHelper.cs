@@ -17,5 +17,10 @@ namespace Grafika.Helpers
         {
             return Math.Sqrt(Math.Pow(CONST.CONST.radial, 2) - Math.Pow(distance, 2));
         }
+
+        public static double HeightOfNInWave(double distance, double waveDistance)
+        {
+            return Math.Sqrt(Math.Pow(CONST.CONST.waveLength, 2) - Math.Pow(distance - waveDistance, 2));
+        }
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="Helpers\DistanceHelper.cs" />
     <Compile Include="Helpers\FigureHelper.cs" />
     <Compile Include="Helpers\FillingHelper.cs" />
+    <Compile Include="Helpers\LineHelper.cs" />
     <Compile Include="Helpers\TriangleHelper.cs" />
     <Compile Include="Helpers\VectorHelper.cs" />
     <Compile Include="Models\AETPointer.cs" />

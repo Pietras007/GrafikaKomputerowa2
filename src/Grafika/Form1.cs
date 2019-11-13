@@ -34,6 +34,7 @@ namespace Grafika
         double ks;
         double kd;
         bool triangleWeb;
+        double waveDistance;
         int m;
         (int, int, int) lightSource;
         double t = 1;
@@ -49,7 +50,7 @@ namespace Grafika
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb, mouse);
+            g.Paint(picture, wypelnienie, sampleImageColor, normalMapColor, backColor, trybPracy, ks, kd, m, rodzajMalowania, lightColor, opcjaWektoraN, lightSource, randomKdKsM, triangleWeb, mouse, waveDistance);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -87,6 +88,7 @@ namespace Grafika
             trackBar1.Value = (int)(kd * 100);
             trackBar2.Value = (int)(ks * 100);
             trackBar3.Value = m;
+            waveDistance = 0;
             //   
             zHeight = 50;
             triangleWeb = true;
@@ -108,6 +110,7 @@ namespace Grafika
             {
                 z = 1;
             }
+            waveDistance += 0.8;
             zHeight += z;
             lightSource = ((int)newX, (int)newY, zHeight);
             t += 0.01;
@@ -287,6 +290,21 @@ namespace Grafika
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
             opcjaWektoraN = OpcjaWektoraN.Babelek;
+        }
+
+        private void radioButton11_CheckedChanged(object sender, EventArgs e)
+        {
+            opcjaWektoraN = OpcjaWektoraN.Fala;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs ee = (MouseEventArgs)e;
+            if (opcjaWektoraN == OpcjaWektoraN.Fala)
+            {
+                waveDistance = 0;
+                mouse = (ee.X, ee.Y);
+            }
         }
     }
 }

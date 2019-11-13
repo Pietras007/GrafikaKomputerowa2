@@ -67,7 +67,7 @@ namespace Grafika.Models
             return (aETPointers, GetYminFromAll());
         }
 
-        public (Color, (int, int))[] CountColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse)
+        public (Color, (int, int))[] CountColorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse, double waveDistance)
         {
             (Color, (int, int))[] resultColors = new (Color, (int, int))[3];
             for (int i = 0; i < vertices.Count; i++)
@@ -95,6 +95,26 @@ namespace Grafika.Models
                         N = VectorHelper.NormalizeVector((x - mouse.Item1, y - mouse.Item2, h));
                     }
                 }
+                else if (opcjaWektoraN == OpcjaWektoraN.Fala)
+                {
+                    double distance = DistanceHelper.Distance((x, y), mouse);
+                    if (distance > waveDistance - CONST.CONST.waveLength && distance < waveDistance + CONST.CONST.waveLength)
+                    {
+                        double h = DistanceHelper.HeightOfNInWave(distance, waveDistance);
+                        (double, double) line = LineHelper.GetStraightLine((x, y), mouse);
+                        ((int, int), (int, int)) vertices = LineHelper.GetPointFromLineDistanceAndPoint(line, waveDistance, mouse);
+                        (int, int) centreOfWave = (-1, -1);
+                        if (x == mouse.Item1)
+                        {
+                            centreOfWave = LineHelper.GetCloserVerticeFromVertice(((mouse.Item1, mouse.Item2 - (int)waveDistance), (mouse.Item1, mouse.Item2 + (int)waveDistance)), (x, y));
+                        }
+                        else
+                        {
+                            centreOfWave = LineHelper.GetCloserVerticeFromVertice(vertices, (x, y));
+                        }
+                        N = VectorHelper.NormalizeVector((x - centreOfWave.Item1, y - centreOfWave.Item2, h));
+                    }
+                }
 
                 (double, double, double) L = (0, 0, 1);
                 if (trybPracy == TrybPracy.SwiatloWedrujace)
@@ -108,7 +128,7 @@ namespace Grafika.Models
             return resultColors;
         }
 
-        public ((Color, (double, double, double)), (int, int))[] GetColorsAndVectorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse)
+        public ((Color, (double, double, double)), (int, int))[] GetColorsAndVectorsABC(Wypelnienie wypelnienie, Color[,] sampleImage, Color[,] normalMap, Color backColor, double ks, double kd, int m, Color lightColor, OpcjaWektoraN opcjaWektoraN, (int, int, int) lightSource, TrybPracy trybPracy, (int, int) mouse, double waveDistance)
         {
             ((Color, (double, double, double)), (int, int))[] resultColorsAndVectors = new ((Color, (double, double, double)), (int, int))[3];
             for (int i = 0; i < vertices.Count; i++)
@@ -134,6 +154,26 @@ namespace Grafika.Models
                     {
                         double h = DistanceHelper.HeightOfN(distance);
                         N = VectorHelper.NormalizeVector((x - mouse.Item1, y - mouse.Item2, h));
+                    }
+                }
+                else if (opcjaWektoraN == OpcjaWektoraN.Fala)
+                {
+                    double distance = DistanceHelper.Distance((x, y), mouse);
+                    if (distance > waveDistance - CONST.CONST.waveLength && distance < waveDistance + CONST.CONST.waveLength)
+                    {
+                        double h = DistanceHelper.HeightOfNInWave(distance, waveDistance);
+                        (double, double) line = LineHelper.GetStraightLine((x, y), mouse);
+                        ((int, int), (int, int)) vertices = LineHelper.GetPointFromLineDistanceAndPoint(line, waveDistance, mouse);
+                        (int, int) centreOfWave = (-1, -1);
+                        if (x == mouse.Item1)
+                        {
+                            centreOfWave = LineHelper.GetCloserVerticeFromVertice(((mouse.Item1, mouse.Item2 - (int)waveDistance), (mouse.Item1, mouse.Item2 + (int)waveDistance)), (x, y));
+                        }
+                        else
+                        {
+                            centreOfWave = LineHelper.GetCloserVerticeFromVertice(vertices, (x, y));
+                        }
+                        N = VectorHelper.NormalizeVector((x - centreOfWave.Item1, y - centreOfWave.Item2, h));
                     }
                 }
 
